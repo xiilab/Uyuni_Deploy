@@ -1,0 +1,19 @@
+repositories:
+  - name: codecentric
+    url: https://codecentric.github.io/helm-charts
+
+releases:
+  - name: uyuni-realm
+    namespace: keycloak
+    chart: ./uyuni-realm
+    wait: true
+    
+  - name: keycloak
+    namespace: keycloak
+    chart: codecentric/keycloak
+    wait: true
+    values:
+    - values.yaml.gotmpl
+    needs: 
+    - uyuni-realm
+

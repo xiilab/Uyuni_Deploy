@@ -1,0 +1,23 @@
+common:
+  ingress:
+    domain: "xiilab.com"
+
+nfsprovisioner:
+  nfs:
+    server: "192.168.2.27"
+    path: "/kube_storage"
+
+
+metallb:
+  address-pools:
+    addresses: 192.168.56.20-192.168.56.50
+
+
+harbor:
+  harborAdminPassword: xiilabPassword3#
+
+keycloak:
+  keycloakAdminPassword: xiilabPassword3#
+
+uyunisuite:
+  env: develop

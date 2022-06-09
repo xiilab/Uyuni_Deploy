@@ -1,0 +1,27 @@
+repositories:
+  - name: elastic
+    url: https://helm.elastic.co
+  - name: fluent
+    url: https://fluent.github.io/helm-charts
+
+releases:
+  - name: elastic
+    namespace: efk-stack
+    chart: elastic/elasticsearch
+    wait: true
+    values:
+    - replicas: 2
+
+  - name: kibana
+    namespace: efk-stack
+    chart: elastic/kibana
+    wait: true
+    values:
+    - kibana.yaml
+
+  - name: fluentd
+    namespace: efk-stack
+    chart: fluent/fluentd
+    wait: true
+    values:
+    - fluetnd.yaml

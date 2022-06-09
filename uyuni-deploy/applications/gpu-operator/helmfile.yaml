@@ -1,0 +1,14 @@
+repositories:
+  - name: nvidia
+    url: https://helm.ngc.nvidia.com/nvidia
+
+releases:
+  - name: gpu-operator
+    namespace: gpu-operator
+    chart: nvidia/gpu-operator
+    wait: true
+    set:
+      - name: driver.enabled
+        value: false
+      - name: toolkit.enabled
+        value: false

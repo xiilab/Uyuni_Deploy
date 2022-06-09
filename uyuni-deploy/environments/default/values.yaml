@@ -1,0 +1,21 @@
+common:
+  ingress:
+    domain: "default.com"
+
+nfsprovisioner:
+  nfs:
+    server: "192.168.2.27"
+    path: "/kube_storage"
+
+metallb:
+  address-pools:
+    addresses: 192.168.56.20-192.168.56.50
+
+harbor:
+  harborAdminPassword: Harbor12345
+
+keycloak:
+  keycloakAdminPassword: Keycloak12345
+
+uyunisuite:
+  env: develop

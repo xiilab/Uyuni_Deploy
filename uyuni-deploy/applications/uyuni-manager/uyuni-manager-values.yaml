@@ -1,0 +1,28 @@
+image:
+  tag: v0.1
+
+imagePullSecrets:
+  - name: harbor-login
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: dev
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-issuer
+  hosts:
+    - host: uyuni-manager.xiilab.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: uyuni-manager-tls
+      hosts:
+        - uyuni-manager.xiilab.com

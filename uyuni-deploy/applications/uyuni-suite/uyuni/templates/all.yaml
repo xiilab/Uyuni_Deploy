@@ -1,0 +1,783 @@
+apiVersion: v1
+data:
+  batch-initdb-script.sql: |+
+    CREATE TABLE BATCH_JOB_INSTANCE  (
+    JOB_INSTANCE_ID BIGINT  NOT NULL PRIMARY KEY ,
+    VERSION BIGINT ,
+    JOB_NAME VARCHAR(100) NOT NULL,
+    JOB_KEY VARCHAR(32) NOT NULL,
+    constraint JOB_INST_UN unique (JOB_NAME, JOB_KEY)
+    ) ENGINE=InnoDB;
+
+    CREATE TABLE BATCH_JOB_EXECUTION  (
+    JOB_EXECUTION_ID BIGINT  NOT NULL PRIMARY KEY ,
+    VERSION BIGINT  ,
+    JOB_INSTANCE_ID BIGINT NOT NULL,
+    CREATE_TIME DATETIME(6) NOT NULL,
+    START_TIME DATETIME(6) DEFAULT NULL ,
+    END_TIME DATETIME(6) DEFAULT NULL ,
+    STATUS VARCHAR(10) ,
+    EXIT_CODE VARCHAR(2500) ,
+    EXIT_MESSAGE VARCHAR(2500) ,
+    LAST_UPDATED DATETIME(6),
+    JOB_CONFIGURATION_LOCATION VARCHAR(2500) NULL,
+    constraint JOB_INST_EXEC_FK foreign key (JOB_INSTANCE_ID)
+    references BATCH_JOB_INSTANCE(JOB_INSTANCE_ID)
+    ) ENGINE=InnoDB;
+
+    CREATE TABLE BATCH_JOB_EXECUTION_PARAMS  (
+    JOB_EXECUTION_ID BIGINT NOT NULL ,
+    TYPE_CD VARCHAR(6) NOT NULL ,
+    KEY_NAME VARCHAR(100) NOT NULL ,
+    STRING_VAL VARCHAR(250) ,
+    DATE_VAL DATETIME(6) DEFAULT NULL ,
+    LONG_VAL BIGINT ,
+    DOUBLE_VAL DOUBLE PRECISION ,
+    IDENTIFYING CHAR(1) NOT NULL ,
+    constraint JOB_EXEC_PARAMS_FK foreign key (JOB_EXECUTION_ID)
+    references BATCH_JOB_EXECUTION(JOB_EXECUTION_ID)
+    ) ENGINE=InnoDB;
+
+    CREATE TABLE BATCH_STEP_EXECUTION  (
+    STEP_EXECUTION_ID BIGINT  NOT NULL PRIMARY KEY ,
+    VERSION BIGINT NOT NULL,
+    STEP_NAME VARCHAR(100) NOT NULL,
+    JOB_EXECUTION_ID BIGINT NOT NULL,
+    START_TIME DATETIME(6) NOT NULL ,
+    END_TIME DATETIME(6) DEFAULT NULL ,
+    STATUS VARCHAR(10) ,
+    COMMIT_COUNT BIGINT ,
+    READ_COUNT BIGINT ,
+    FILTER_COUNT BIGINT ,
+    WRITE_COUNT BIGINT ,
+    READ_SKIP_COUNT BIGINT ,
+    WRITE_SKIP_COUNT BIGINT ,
+    PROCESS_SKIP_COUNT BIGINT ,
+    ROLLBACK_COUNT BIGINT ,
+    EXIT_CODE VARCHAR(2500) ,
+    EXIT_MESSAGE VARCHAR(2500) ,
+    LAST_UPDATED DATETIME(6),
+    constraint JOB_EXEC_STEP_FK foreign key (JOB_EXECUTION_ID)
+    references BATCH_JOB_EXECUTION(JOB_EXECUTION_ID)
+    ) ENGINE=InnoDB;
+
+    CREATE TABLE BATCH_STEP_EXECUTION_CONTEXT  (
+    STEP_EXECUTION_ID BIGINT NOT NULL PRIMARY KEY,
+    SHORT_CONTEXT VARCHAR(2500) NOT NULL,
+    SERIALIZED_CONTEXT TEXT ,
+    constraint STEP_EXEC_CTX_FK foreign key (STEP_EXECUTION_ID)
+    references BATCH_STEP_EXECUTION(STEP_EXECUTION_ID)
+    ) ENGINE=InnoDB;
+
+    CREATE TABLE BATCH_JOB_EXECUTION_CONTEXT  (
+    JOB_EXECUTION_ID BIGINT NOT NULL PRIMARY KEY,
+    SHORT_CONTEXT VARCHAR(2500) NOT NULL,
+    SERIALIZED_CONTEXT TEXT ,
+    constraint JOB_EXEC_CTX_FK foreign key (JOB_EXECUTION_ID)
+    references BATCH_JOB_EXECUTION(JOB_EXECUTION_ID)
+    ) ENGINE=InnoDB;
+
+    CREATE TABLE BATCH_STEP_EXECUTION_SEQ (
+    ID BIGINT NOT NULL,
+    UNIQUE_KEY CHAR(1) NOT NULL,
+    constraint UNIQUE_KEY_UN unique (UNIQUE_KEY)
+    ) ENGINE=InnoDB;
+
+    INSERT INTO BATCH_STEP_EXECUTION_SEQ (ID, UNIQUE_KEY) select * from (select 0 as ID, '0' as UNIQUE_KEY) as tmp where not exists(select * from BATCH_STEP_EXECUTION_SEQ);
+
+    CREATE TABLE BATCH_JOB_EXECUTION_SEQ (
+    ID BIGINT NOT NULL,
+    UNIQUE_KEY CHAR(1) NOT NULL,
+    constraint UNIQUE_KEY_UN unique (UNIQUE_KEY)
+    ) ENGINE=InnoDB;
+
+    INSERT INTO BATCH_JOB_EXECUTION_SEQ (ID, UNIQUE_KEY) select * from (select 0 as ID, '0' as UNIQUE_KEY) as tmp where not exists(select * from BATCH_JOB_EXECUTION_SEQ);
+
+    CREATE TABLE BATCH_JOB_SEQ (
+    ID BIGINT NOT NULL,
+    UNIQUE_KEY CHAR(1) NOT NULL,
+    constraint UNIQUE_KEY_UN unique (UNIQUE_KEY)
+    ) ENGINE=InnoDB;
+
+    INSERT INTO BATCH_JOB_SEQ (ID, UNIQUE_KEY) select * from (select 0 as ID, '0' as UNIQUE_KEY) as tmp where not exists(select * from BATCH_JOB_SEQ);
+
+  uyuni-initdb-script.sql: |
+    CREATE TABLE `TB_APPLICATION` (
+      `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+      `CONSTRUCTOR` varchar(255) DEFAULT NULL,
+      `MOD_DATE` datetime(6) DEFAULT NULL,
+      `MODIFIER` varchar(255) DEFAULT NULL,
+      `REG_DATE` datetime(6) DEFAULT NULL,
+      `ENDDATE` datetime(6) DEFAULT NULL,
+      `GPUCOUNT` int(11) DEFAULT NULL,
+      `IMAGE` varchar(255) DEFAULT NULL,
+      `IMAGENAME` varchar(255) DEFAULT NULL,
+      `LIMITCPU` varchar(255) DEFAULT NULL,
+      `LIMITMEM` varchar(255) DEFAULT NULL,
+      `NAME` varchar(255) DEFAULT NULL,
+      `PORT` int(11) DEFAULT NULL,
+      `REQUESTCPU` varchar(255) DEFAULT NULL,
+      `REQUESTMEM` varchar(255) DEFAULT NULL,
+      `STARTDATE` datetime(6) DEFAULT NULL,
+      `STATUS` varchar(255) DEFAULT NULL,
+      PRIMARY KEY (`ID`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_CODE` (
+      `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+      `CONSTRUCTOR` varchar(255) DEFAULT NULL,
+      `MOD_DATE` datetime(6) DEFAULT NULL,
+      `MODIFIER` varchar(255) DEFAULT NULL,
+      `REG_DATE` datetime(6) DEFAULT NULL,
+      `ARGUMENTS` varchar(255) DEFAULT NULL,
+      `DESCRIPTION` varchar(255) DEFAULT NULL,
+      `FULLPATH` varchar(255) DEFAULT NULL,
+      `NAME` varchar(255) DEFAULT NULL,
+      `NODETYPE` varchar(255) DEFAULT NULL,
+      `PATH` varchar(255) DEFAULT NULL,
+      `STATUS` varchar(255) DEFAULT NULL,
+      `URL` varchar(255) DEFAULT NULL,
+      PRIMARY KEY (`ID`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_ENV` (
+      `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+      `CONSTRUCTOR` varchar(255) DEFAULT NULL,
+      `MOD_DATE` datetime(6) DEFAULT NULL,
+      `MODIFIER` varchar(255) DEFAULT NULL,
+      `REG_DATE` datetime(6) DEFAULT NULL,
+      `NAME` varchar(255) DEFAULT NULL,
+      `VALUE` varchar(255) DEFAULT NULL,
+      `project_ID` bigint(20) DEFAULT NULL,
+      PRIMARY KEY (`ID`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_IMAGE` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `component_execute` varchar(255) DEFAULT NULL,
+      `description` varchar(255) DEFAULT NULL,
+      `execute_option` varchar(255) DEFAULT NULL,
+      `imageName` varchar(255) DEFAULT NULL,
+      `image_authority` varchar(255) DEFAULT NULL,
+      `image_repository_type` varchar(255) DEFAULT NULL,
+      `log` varchar(255) DEFAULT NULL,
+      `node_type` varchar(255) DEFAULT NULL,
+      `ports` int(11) NOT NULL,
+      `status` varchar(255) DEFAULT NULL,
+      `tag` varchar(255) DEFAULT NULL,
+      `url` varchar(255) DEFAULT NULL,
+      `CONSTRUCTOR` varchar(255) DEFAULT NULL,
+      `MOD_DATE` datetime(6) DEFAULT NULL,
+      `MODIFIER` varchar(255) DEFAULT NULL,
+      `REG_DATE` datetime(6) DEFAULT NULL,
+      `IMAGE_NAME` varchar(255) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_NODE` (
+      `DTYPE` varchar(31) NOT NULL,
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `CONSTRUCTOR` varchar(255) DEFAULT NULL,
+      `MOD_DATE` datetime(6) DEFAULT NULL,
+      `MODIFIER` varchar(255) DEFAULT NULL,
+      `REG_DATE` datetime(6) DEFAULT NULL,
+      `nodeIp` varchar(255) DEFAULT NULL,
+      `nodeName` varchar(255) DEFAULT NULL,
+      `gpuCount` int(11) DEFAULT NULL,
+      `gpuType` varchar(255) DEFAULT NULL,
+      `type` varchar(255) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_NODE_ASSIGN` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `endDate` datetime(6) DEFAULT NULL,
+      `startDate` datetime(6) DEFAULT NULL,
+      `node_id` bigint(20) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_PROJECT` (
+      `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+      `CONSTRUCTOR` varchar(255) DEFAULT NULL,
+      `MOD_DATE` datetime(6) DEFAULT NULL,
+      `MODIFIER` varchar(255) DEFAULT NULL,
+      `REG_DATE` datetime(6) DEFAULT NULL,
+      `ENDDATE` datetime(6) DEFAULT NULL,
+      `GPUCOUNT` int(11) DEFAULT NULL,
+      `IMAGE` varchar(255) DEFAULT NULL,
+      `IMAGENAME` varchar(255) DEFAULT NULL,
+      `LIMITCPU` varchar(255) DEFAULT NULL,
+      `LIMITMEM` varchar(255) DEFAULT NULL,
+      `NAME` varchar(255) DEFAULT NULL,
+      `PORT` int(11) DEFAULT NULL,
+      `REQUESTCPU` varchar(255) DEFAULT NULL,
+      `REQUESTMEM` varchar(255) DEFAULT NULL,
+      `STARTDATE` datetime(6) DEFAULT NULL,
+      `STATUS` varchar(255) DEFAULT NULL,
+      `NODE_PORT` int(11) DEFAULT NULL,
+      `GPUTYPE` varchar(255) DEFAULT NULL,
+      `code_ID` bigint(20) DEFAULT NULL,
+      `imageEntity_ID` bigint(20) DEFAULT NULL,
+      PRIMARY KEY (`ID`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_PROJECT_ARGS` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `args` varchar(255) DEFAULT NULL,
+      `project_ID` bigint(20) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_PROJECT_CMD` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `cmd` varchar(255) DEFAULT NULL,
+      `project_ID` bigint(20) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_PROJECT_NODE` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `CONSTRUCTOR` varchar(255) DEFAULT NULL,
+      `MOD_DATE` datetime(6) DEFAULT NULL,
+      `MODIFIER` varchar(255) DEFAULT NULL,
+      `REG_DATE` datetime(6) DEFAULT NULL,
+      `node_id` bigint(20) DEFAULT NULL,
+      `project_ID` bigint(20) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_PROJECT_TOOL` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `description` varchar(255) DEFAULT NULL,
+      `port` int(11) NOT NULL,
+      `project_ID` bigint(20) DEFAULT NULL,
+      `tool_id` bigint(20) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE `TB_TOOL` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `execute` varchar(255) DEFAULT NULL,
+      `toolName` varchar(255) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+kind: ConfigMap
+metadata:
+  name: initdb-script-config-88t2hh9k4m
+  namespace: uyuni-suite-develop
+---
+apiVersion: v1
+data:
+  mariadb-custom.cnf: |
+    [client]
+    default-character-set = utf8mb4
+
+    [mysql]
+    default-character-set = utf8mb4
+
+    [mysqld]
+    character-set-client-handshake = FALSE
+    character-set-server           = utf8mb4
+    collation-server               = utf8mb4_unicode_ci
+    bind-address                   = 0.0.0.0
+kind: ConfigMap
+metadata:
+  name: mariadb-config-2288kd4h98
+  namespace: uyuni-suite-develop
+---
+apiVersion: v1
+data:
+  nginx.conf: |+
+    server {
+        listen 80;
+        location / {
+            root    /app/build;
+            index   index.html;
+            try_files $uri $uri/ /index.html;
+        }
+    }
+
+kind: ConfigMap
+metadata:
+  name: nginx-config-mkcm22c75h
+  namespace: uyuni-suite-develop
+---
+apiVersion: v1
+data:
+  password: cm9vdA==
+kind: Secret
+metadata:
+  name: db-user-pass-96h4525584
+  namespace: uyuni-suite-develop
+type: Opaque
+---
+apiVersion: v1
+data:
+  config: |
+    YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLW
+    F1dGhvcml0eS1kYXRhOiBMUzB0TFMxQ1JVZEpUaUJEUlZKVVNVWkpRMEZVUlMwdExTMHRD
+    azFKU1VNMWVrTkRRV01yWjBGM1NVSkJaMGxDUVVSQlRrSm5hM0ZvYTJsSE9YY3dRa0ZSYz
+    BaQlJFRldUVkpOZDBWUldVUldVVkZFUlhkd2NtUlhTbXdLWTIwMWJHUkhWbnBOUWpSWVJG
+    UkpkMDFVUlhoT2FrRjRUVVJSZWsxV2IxaEVWRTEzVFZSRmVFNUVRWGhOUkZGNlRWWnZkMF
+    pVUlZSTlFrVkhRVEZWUlFwQmVFMUxZVE5XYVZwWVNuVmFXRkpzWTNwRFEwRlRTWGRFVVZs
+    S1MyOWFTV2gyWTA1QlVVVkNRbEZCUkdkblJWQkJSRU5EUVZGdlEyZG5SVUpCVDJFckNsWk
+    NUbkptYkdoWWMzRXdaMVJ5TTFORU1FaE1aakV5V1dOTGRGVTFhMlowZG0xR1JFOWhNalJS
+    Um5KWlZYWXJhbHBxY0VWMlpqaHdWa2N4VEZOSlIyVUtTbXA0WW5jeFkwUlFLM1pKZGpocl
+    luSjFWRGhpTUdGU01tTlNaMlp3YWxnclpsQnhiRk5ETjFoR1FubzFUM1ZYV1dWa2NsaFRW
+    SHBhUzFBdk1USmhjUW9yTkc1RlVHMTZkWFpoY1RWS1NXOVpiRk5uVUUwMFYzRkpUR05TZE
+    VGSmNtNHlkVkZQVVhCM0x6UlpURFJ3Y0dKMGRsRXpRWFZJTDFVMmJqWkVPVE5ZQ2xOSVRI
+    cGpaRkZUYmxSdFZFcGlTV3Q2WkhZMFFtaEtjR1JQVnpKU2JGTmxZekJhVEdZNVIyOXBlRU
+    5aVmtwTFEwRlJla1JKVlZWTlZHdGpNbEF2ZGtNS05FcFZaRTlXZUdwNWNYcG1jbXhMUVd4
+    V2JtNXVha0l3ZFdwNVRXaHZOM1JDY3k5NU5sSjVhV2xHTkhCdVFUY3ZkR3N5UjI5dVlrMX
+    ZSMWxRUjFCcVZnb3dlak5rY1ZJeGVuSXlOMmhHVjFKVFdWSnpRMEYzUlVGQllVNURUVVZC
+    ZDBSbldVUldVakJRUVZGSUwwSkJVVVJCWjB0clRVRTRSMEV4VldSRmQwVkNDaTkzVVVaTl
+    FVMUNRV1k0ZDBoUldVUldVakJQUWtKWlJVWlBVMnBRYjNOb1Zrb3pTa2xMVmxaMGNuQnBX
+    R3R5Y2pOTU9GaE5RVEJIUTFOeFIxTkpZak1LUkZGRlFrTjNWVUZCTkVsQ1FWRkJVbTQxVV
+    hSelEzUXZaMU5ZWmpCU1JTdDRVRzB4Wm5ad2VrdEJZamQ1ZG1Kclp6UTBWRGRRT1hsbU5r
+    WjVkVWhvVGdweloxRTNkV0V5WTNaUWFVSXhPVWRSUzNwM1NuRXhXa2t5ZFRkdWNXUkJUbE
+    J0S3poQlYwaEpiSE5wUmpWM1lsVXhVeXN5ZWtoTk1tSmtWbU4yUWpCbkNtSXdjazVaVERG
+    RU1EUkJWMG9yVkZCdlVqaDZlWGxzYXpWWlNuQmpjbE0wUlZJM2FVcFRaa3BZYWl0R1Ezb3
+    dTRFk0VnpOVFFVZFFVbk5zWkZVM1dFRUtNekEwYUdwVFdIRnJReXQyZFdwMWJWVlRjR3M1
+    VmxOWlowTkVObWgyV0Zsck4wNDROR2h5UmxGUU5VOVVlWEl2Y0hFek1qbHlWbVJ0ZGtKaF
+    UyZHFOd3BtUlROS2FVaDZOV2hZTDJkaUx6aE9kMVkxWlRSTlMxRXJSa0pET1VwelZXbFBX
+    R3RSVlV4T2NtSTRRbEJuWldGblNqZG1LMXB2VjJJMmNVZFpPRVZFQ2tncmRVaHpaM2cxWW
+    psR2NGbzBVemhUWjJ4bFZXOVRkMVJhU2tWNU9GRldjbkJ2YlFvdExTMHRMVVZPUkNCRFJW
+    SlVTVVpKUTBGVVJTMHRMUzB0Q2c9PQogICAgc2VydmVyOiBodHRwczovLzE5Mi4xNjguMi
+    4xNDE6NjQ0MwogIG5hbWU6IGNsdXN0ZXIubG9jYWwKY29udGV4dHM6Ci0gY29udGV4dDoK
+    ICAgIGNsdXN0ZXI6IGNsdXN0ZXIubG9jYWwKICAgIHVzZXI6IGt1YmVybmV0ZXMtYWRtaW
+    4KICBuYW1lOiBrdWJlcm5ldGVzLWFkbWluQGNsdXN0ZXIubG9jYWwKY3VycmVudC1jb250
+    ZXh0OiBrdWJlcm5ldGVzLWFkbWluQGNsdXN0ZXIubG9jYWwKa2luZDogQ29uZmlnCnByZW
+    ZlcmVuY2VzOiB7fQp1c2VyczoKLSBuYW1lOiBrdWJlcm5ldGVzLWFkbWluCiAgdXNlcjoK
+    ICAgIGNsaWVudC1jZXJ0aWZpY2F0ZS1kYXRhOiBMUzB0TFMxQ1JVZEpUaUJEUlZKVVNVWk
+    pRMEZVUlMwdExTMHRDazFKU1VSRmVrTkRRV1oxWjBGM1NVSkJaMGxKVGpsS2RXOWpZbmhY
+    UlhkM1JGRlpTa3R2V2tsb2RtTk9RVkZGVEVKUlFYZEdWRVZVVFVKRlIwRXhWVVVLUVhoTl
+    MyRXpWbWxhV0VwMVdsaFNiR042UVdWR2R6QjVUVVJGZUUxVVdYZE5WRUV3VFhwR1lVWjNN
+    SGxOYWtWNVRVUmpkMDVxVVhsTmVtUmhUVVJSZUFwR2VrRldRbWRPVmtKQmIxUkViazQxWX
+    pOU2JHSlVjSFJaV0U0d1dsaEtlazFTYTNkR2QxbEVWbEZSUkVWNFFuSmtWMHBzWTIwMWJH
+    UkhWbnBNVjBackNtSlhiSFZOU1VsQ1NXcEJUa0puYTNGb2EybEhPWGN3UWtGUlJVWkJRVT
+    lEUVZFNFFVMUpTVUpEWjB0RFFWRkZRWGx3TkhkTVYxTTRUeXRYWTFGU1NEa0thWEJMVVda
+    RmFrb3dORTVRYXlzdlFUTjVRemd6TWtaVWRsVldNMjg0YkhwbE5VcE5XVTF5WVZOd09ERn
+    FaRk5LZFVjNU1HSjJZakJXT0ZSck5HVXdMd292VUc4MllVZGtXRFkyWkhCa1VGTlFTM3BK
+    WmxZMmVUVklZVlkxVWxGblNsTnZVRkZ2ZVhsTVdYWk1abkZPUmpGMVNtRnlRWEIyY201UF
+    RITmFjblEwQ21sRlJURjFjMlF6VHpseEswWlVUVmRRV0dwdmRuUnFaMFJJUWk5TVIzbHFW
+    MXBPTnpoQ09EQk5VVlZDYkRkNlRVRXpSRGcxZG1wdWQwVkpOR1JZUXpVS01qaHNWWGxrWj
+    A5NldXeGFhVTl5VFd4dFpWQmtUaXNyU0ROaWVrb3lXR2N5VVM4M1pHVmhaRkJZYUZJM1NG
+    a3Zaa3hZTjJRMksxRnJSM2xvWjBGNWJBbzRNa293WXpKYWQwSXpMMm9yUlhsVmVHeHdXbF
+    IwZWxCV1V6WnVNRXRSVFVOS09FdGFkVVZvWjBGWldFeE9hbUpRWm05d1FTdEJUbmRGVW01
+    UVIwUnRDak5qVlZvMGQwbEVRVkZCUW04d1ozZFNha0ZQUW1kT1ZraFJPRUpCWmpoRlFrRk
+    5RMEpoUVhkRmQxbEVWbEl3YkVKQmQzZERaMWxKUzNkWlFrSlJWVWdLUVhkSmQwaDNXVVJX
+    VWpCcVFrSm5kMFp2UVZVMVMwMHJhWGxHVlc1amEyZHdWbGN5ZFcxS1pWTjFkbU4yZUdOM1
+    JGRlpTa3R2V2tsb2RtTk9RVkZGVEFwQ1VVRkVaMmRGUWtGQ1pWTnpkVTkzWlc5eVptWk5l
+    WG95VnpJNVFWcG1WRXBRWVN0VWRGbE1TVmxPTlhab05qRXZTRWRXV0c4M01FcFVPSEpEWV
+    RCNENrTjVZV3cyYVRGaFZHOWtTWFYxV21rM2NtcFhhRkEzYUVzelZFZHpPVEpOU3pOek9X
+    ZE9VRVE0YW1aMGFuRm1WRmhGVjAxV1QzSXZUWE50VkRWdFoyNEthWE5RVkRWVFkyaEVhbG
+    8zVnk4eE1FOTNWVWRxTTFaYVFrUkxNMUprUTNGTUwxSm5LMVpxWVhScVEyZDRPV3RtYTBz
+    NVNreFZUMDR4V0VocFNsRmFhd28wTmtkdGIyaDZWemgwYW5CRVEwSlNlVzg0WjJzNFVWUk
+    hkR2hNWlRSUk1tRnZMMEZSY0d3MFMxUlBNbmhWTDFWRmNWRkNVVkk1TWxGNllsZzNURXBC
+    Q2xsQldIbFhjbEZNU2xJM1YyWlBhazVEV1RRMmVUSmFZMjlFVTB4QlFVMVNWMVIwUm5Sbm
+    NrSmtiVk5sYzJRMGVuWmlkMnBLTVZkSlNXSlNVSHBTUkZFS09DdEROa3RMY1dNclVHeE1j
+    RXBNUlZoUVR6aGxTRFUzVWpkRE9XbFRZejBLTFMwdExTMUZUa1FnUTBWU1ZFbEdTVU5CVk
+    VVdExTMHRMUW89CiAgICBjbGllbnQta2V5LWRhdGE6IExTMHRMUzFDUlVkSlRpQlNVMEVn
+    VUZKSlZrRlVSU0JMUlZrdExTMHRMUXBOU1VsRmNGRkpRa0ZCUzBOQlVVVkJlWEEwZDB4WF
+    V6aFBLMWRqVVZKSU9XbHdTMUZtUldwS01EUk9VR3NyTDBFemVVTTRNekpHVkhaVlZqTnZP
+    R3g2Q21VMVNrMVpUWEpoVTNBNE1XcGtVMHAxUnprd1luWmlNRlk0VkdzMFpUQXZMMUJ2Tm
+    1GSFpGZzJObVJ3WkZCVFVFdDZTV1pXTm5rMVNHRldOVkpSWjBvS1UyOVFVVzk1ZVV4WmRr
+    eG1jVTVHTVhWS1lYSkJjSFp5Yms5TWMxcHlkRFJwUlVVeGRYTmtNMDg1Y1N0R1ZFMVhVRm
+    hxYjNaMGFtZEVTRUl2VEVkNWFncFhXazQzT0VJNE1FMVJWVUpzTjNwTlFUTkVPRFYyYW01
+    M1JVazBaRmhETlRJNGJGVjVaR2RQZWxsc1dtbFBjazFzYldWUVpFNHJLMGd6WW5wS01saG
+    5DakpSTHpka1pXRmtVRmhvVWpkSVdTOW1URmczWkRZclVXdEhlV2huUVhsc09ESktNR015
+    V25kQ015OXFLMFY1Vlhoc2NGcFVkSHBRVmxNMmJqQkxVVTBLUTBvNFMxcDFSV2huUVZsWV
+    RFNXFZbEJtYjNCQkswRk9kMFZTYmxCSFJHMHpZMVZhTkhkSlJFRlJRVUpCYjBsQ1FVSllU
+    RUl2UjBvclZHdFZSRVZrZGdwalR6ZGljblJETDFnek0zaHFUR2xxZGtGSlJESnRla2xaYV
+    VwclpUSmlVbVo1ZEZkYVFVdDRUSFZQUWpGc1prZ3JXSGQwSzB3NFMzSjFUbFl5VTNnekNu
+    ZFVPSEpvZFdFNU0zUlpTVGR4TTFkMFEwNDBVVFpxUW1WcVR6TklZVVZSUzFSbGNtb3JRaz
+    VLVkhwcFZrczBjWGRXWlRKV1VGSXhOSFJVUVVRMU9Vb0tTVTFETDBOMFJuQk1UMnA1VFZO
+    dVJXdGxjbEYxTWk5NmEySXlhMnh5WmtGMFNFVlZTV05pY0dwbVVtWkhjV3BXVVVSdVpFeF
+    ROMGwxVGpodE1UVjFiZ3BEV1RkT2FUbFlRMjF2WkVSYVFWcFZTMHh6VHpBNVVHWktiRXh4
+    Y3pobEwxWTBObmN3WjFSdU0wcExkekpvVDFsUFR6bDRUV1YzVUZrNVFYVXdla0pPQ21ObU
+    1YWlZUSHBTVWxoeVMwbFJSbEV2WTAxT1JscExlbmd2YTNReFZqSkdhalpQYzI1c2FYTkVX
+    R2hoUWxKaWNEQkdOMElyZDFvNGFGTllXWE0xYkNzS1FVaFNaVmxWUlVObldVVkJMMHBCYl
+    daVFpUQlhia3N3VGxaV0wyeDFTM1pvTlZSa1JVNDRkU3QxTDNoc2FYZFBZa2h1V1RoVFpV
+    VnpTelpFVlhKV09RcEhaREZOU0ZVNVpqaFBjMkpsT1VvM1pUTTRSRmxzWW1rMVkyRjRSWE
+    pqVFU1VWRrZGlWemRWYlhKR2NrWjNUWFV3WW1GSmNuYzFkV3MwTW5VeFRVeG5DaXM0ZGtS
+    aWNIbFBVMFJFVDJwcGNsUk9LeTgwT1dOUU5VRm5NR2w1UjJaaFYxZDVlbkpTV0VSVGNrRm
+    1iVmxTYUZaUlJFOXVkMDFEWjFsRlFYcFhRVXdLWkVKd2FucFpXR1ZMV1doek0xbEpZVWg0
+    Wmpkd1IyOVNReTlGZUZFM2QyOTRTMlI1VW1NMU5ITlFZM1oyY1UxNFZFOXpSalptWmtjeF
+    RHaERja05uY2dwSGFVMDNiVzFpTW14eWFtTk9aSFpvY0d4SmJFNHJjbEJTVm14RVZFVlhV
+    bXh4T0hveFRuaFljMUZ1U3pCbU9UbFNMekYwYURKQ2RsWlpha1JZZVZaa0NsUkVRbEprWm
+    xNelFrVTBaQ3QyVDNGVlJVdFRaMUE1YUV0U2JtZ3lkRW80T0VVclRYTTJSVU5uV1VWQmNI
+    UjNUbk5oTkdwd05GbFZjbEV2V21oaVVYRUtValpqUVVSdUswWkxSME5TSzJGalRuVklhMl
+    kzVDAxM09WSkhNbnBXVUN0WVRFbHdPRlYwV214WEsyVTNjMVl5Y3pOaFRXODVTRWhuWjNO
+    MFVHSkpWZ3B5U3pOaVVVd3hlVlpQYkZkWFVsQlFVVTV2V200MU5HNVRMMFJXVTNSbFpHdE
+    lNV3RzY0ZZd1NYaHRjblphTVhCbmNFWlhjQzlvWW1OU1IwRnZNbkZLQ21oWU9HUnFaMHhO
+    ZWxoR2FYcDVaalJ5YUVsclkwVlZRMmRaUlVGMWFIa3hhRWQwT1RCbWRtdFVaMDFDYkU5TF
+    dIaFhSelJsTVVKaVZHeFZkV0prUjFBS2NVWmhUalprUTI0NGMyRjFhamRZV0hOWWNYbERN
+    SEZ6T1c5NFkySjVTMlp1VEc5a1FURnJXRlZhVFVscVFUVk5kVXR3YzJFdldIZERNSEJRUV
+    VWc2VncEhMMmc1YjJkS2FuWldNMEZZVUcxSmEweHhTMnBWYmtreWRIaHlTVVZtT1N0c1RU
+    TklkM1UyTlhJellqQldWVXhJUm5sWU5IbHhTelF2U1N0cFJYbEVDbE5GY25WdFRVVkRaMW
+    xGUVcwM1lXTm1ZV3BxYTJ4blNqUnNOR1paS3pKaVNHUjZaVlJJVmxOSE4zbGFNSG93YW10
+    Sll6a3dVVFEyVTBjemNHNDVOemtLYjFsRGFuZFZRMGxzY1RCU2VsWkxhbE14WkVkWlF6Qk
+    NVWFE1UnpoeU5YVldXR3htVVRCWGFrTmxjWFpIYmtoWFFrTXdhWFFyU2pSamIwbzVVRlJU
+    ZFFwTFYzcFVkR3czVFRSbkwwVlZXVWhXTmtkMWJURk5hbGhyWVdodE0xaHBNbkZpUlZKd2
+    FsQkVNMnBKWkdkSVJqQnFiRVppTTNZd1BRb3RMUzB0TFVWT1JDQlNVMEVnVUZKSlZrRlVS
+    U0JMUlZrdExTMHRMUW89Cg==
+kind: Secret
+metadata:
+  name: kube-config-28h78gcg2m
+  namespace: uyuni-suite-develop
+type: Opaque
+---
+apiVersion: v1
+data:
+  .dockerconfigjson: |
+    ewogICJhdXRocyI6IHsKICAgICJoYXJib3IueGlpbGFiLmNvbSI6IHsKICAgICAgInVzZX
+    JuYW1lIjogIm1vb25zdWIiLAogICAgICAicGFzc3dvcmQiOiAiM0VqNFBNZ2Q0MTBVRmk1
+    S3ZBZm1rYWxjNndxR0g1bVciLAogICAgICAiZW1haWwiOiAibS5rd29uQHhpaWxhYi5jb2
+    0iLAogICAgICAiYXV0aCI6ICJiVzl2Ym5OMVlqb3pSV28wVUUxblpEUXhNRlZHYVRWTGRr
+    Rm1iV3RoYkdNMmQzRkhTRFZ0Vnc9PSIKICAgIH0KICB9Cn0K
+kind: Secret
+metadata:
+  name: regcred-d6fkf5h58h
+  namespace: uyuni-suite-develop
+type: kubernetes.io/dockerconfigjson
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-external
+  namespace: uyuni-suite-develop
+spec:
+  externalName: keycloak-http.keycloak.svc.cluster.local
+  type: ExternalName
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  namespace: uyuni-suite-develop
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mariadb
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uyuni-manager-batch
+  namespace: uyuni-suite-develop
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: uyuni-manager-batch
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uyuni-manager-core
+  namespace: uyuni-suite-develop
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: uyuni-manager-core
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uyuni-manager-monitor
+  namespace: uyuni-suite-develop
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: uyuni-manager-monitor
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uyuni-suite-frontend
+  namespace: uyuni-suite-develop
+spec:
+  ports:
+  - name: http
+    port: 80
+  selector:
+    app: uyuni-suite-frontend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uyuni-manager-batch
+  namespace: uyuni-suite-develop
+spec:
+  selector:
+    matchLabels:
+      app: uyuni-manager-batch
+  template:
+    metadata:
+      labels:
+        app: uyuni-manager-batch
+    spec:
+      containers:
+      - env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-batch:v0.127
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        name: uyuni-manager-batch
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - mountPath: /root/.kube
+          name: kube-config
+          readOnly: true
+      imagePullSecrets:
+      - name: regcred-d6fkf5h58h
+      volumes:
+      - name: kube-config
+        secret:
+          secretName: kube-config-28h78gcg2m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uyuni-manager-core
+  namespace: uyuni-suite-develop
+spec:
+  selector:
+    matchLabels:
+      app: uyuni-manager-core
+  template:
+    metadata:
+      labels:
+        app: uyuni-manager-core
+    spec:
+      containers:
+      - env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-core:v0.127
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        name: uyuni-manager-core
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - mountPath: /root/.kube
+          name: kube-config
+          readOnly: true
+      imagePullSecrets:
+      - name: regcred-d6fkf5h58h
+      volumes:
+      - name: kube-config
+        secret:
+          secretName: kube-config-28h78gcg2m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uyuni-manager-monitor
+  namespace: uyuni-suite-develop
+spec:
+  selector:
+    matchLabels:
+      app: uyuni-manager-monitor
+  template:
+    metadata:
+      labels:
+        app: uyuni-manager-monitor
+    spec:
+      containers:
+      - env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+        - name: PROMETHEUS_URL
+          value: http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090
+        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-monitor:v0.127
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        name: uyuni-manager-monitor
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      imagePullSecrets:
+      - name: regcred-d6fkf5h58h
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uyuni-suite-frontend
+  namespace: uyuni-suite-develop
+spec:
+  selector:
+    matchLabels:
+      app: uyuni-suite-frontend
+  template:
+    metadata:
+      labels:
+        app: uyuni-suite-frontend
+    spec:
+      containers:
+      - image: harbor.xiilab.com/uyuni-suite-dev/uyuni-suite-frontend:v0.28
+        name: uyuni-suite-frontend
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d
+          name: nginx-config
+      imagePullSecrets:
+      - name: regcred-d6fkf5h58h
+      volumes:
+      - configMap:
+          name: nginx-config-mkcm22c75h
+        name: nginx-config
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+  namespace: uyuni-suite-develop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  serviceName: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: db-user-pass-96h4525584
+        - name: MYSQL_DATABASE
+          value: uyuni
+        image: mariadb:10.5.8-focal
+        name: mariadb
+        ports:
+        - containerPort: 3306
+          name: mariadb
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mariadb-persistent-storage
+        - mountPath: /etc/mysql/conf.d/
+          name: mariadb-config
+        - mountPath: /docker-entrypoint-initdb.d/
+          name: initdb-script-config
+      volumes:
+      - configMap:
+          name: mariadb-config-2288kd4h98
+        name: mariadb-config
+      - configMap:
+          name: initdb-script-config-88t2hh9k4m
+        name: initdb-script-config
+  volumeClaimTemplates:
+  - metadata:
+      name: mariadb-persistent-storage
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-uyuni-suite
+  namespace: uyuni-suite-develop
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: uyuni-suite.xiilab.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: keycloak-external
+            port:
+              number: 80
+        path: /auth
+        pathType: Prefix
+      - backend:
+          service:
+            name: uyuni-manager-monitor
+            port:
+              number: 8080
+        path: /api/v1/monitor
+        pathType: Prefix
+      - backend:
+          service:
+            name: uyuni-manager-core
+            port:
+              number: 8080
+        path: /api/v1/manager
+        pathType: Prefix
+      - backend:
+          service:
+            name: uyuni-manager-core
+            port:
+              number: 8080
+        path: /docs
+        pathType: Prefix
+      - backend:
+          service:
+            name: uyuni-suite-frontend
+            port:
+              number: 80
+        path: /
+        pathType: Prefix

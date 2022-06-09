@@ -1,0 +1,9 @@
+releases:
+- name: uyuni-suite
+  namespace: uyuni-suite-{{ .Values.uyunisuite.env }}
+  chart: ./uyuni
+  hooks:
+  - events: ["prepare", "cleanup"]
+    command: "./helmify"
+    args: ["{{`{{if eq .Event.Name \"prepare\"}}build{{else}}clean{{end}}`}}", "{{`{{.Release.Ch\
+art}}`}}", "{{`{{ .Values.uyunisuite.env }}`}}"]

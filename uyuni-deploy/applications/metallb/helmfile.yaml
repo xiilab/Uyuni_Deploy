@@ -1,0 +1,17 @@
+repositories:
+  - name: metallb
+    url: https://metallb.github.io/metallb
+
+
+releases:
+  - name: metallb
+    namespace: metallb
+    chart: metallb/metallb
+    wait: true
+    values:
+      - configInline:
+          address-pools:
+            - name: default
+              protocol: layer2
+              addresses:
+                - 192.168.56.20-192.168.56.50

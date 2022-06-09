@@ -1,0 +1,59 @@
+extraEnv: |
+  - name: KEYCLOAK_USER
+    value: "admin"
+  - name: KEYCLOAK_PASSWORD
+    value: "{{ .Values.keycloak.keycloakAdminPassword }}"
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+  - name: KEYCLOAK_IMPORT
+    value: /realm/realm.json
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  # The Service port targeted by the Ingress
+  servicePort: http
+  # Ingress annotations
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-issuer
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+  rules:
+    -
+      # Ingress host
+      host: 'keycloak.{{ .Values.common.ingress.domain }}'
+      # Paths for the host
+      paths:
+        - path: /
+          pathType: Prefix
+  # TLS configuration
+  tls:
+    - hosts:
+        - keycloak.xiilab.com
+      secretName: "keycloak-tls-secret-ca"
+
+extraInitContainers: | 
+  - name: init-customtheme
+    image: busybox
+    command:
+      - sh
+    args:
+      - -c
+      - | 
+       wget https://github.com/xiilab-team/keycloak-theme-uyuni/releases/download/v1.1.3/uyuni-suite-keycloak-theme-1.1.3.jar -P /theme
+    volumeMounts:
+      - name: theme
+        mountPath: /theme
+
+extraVolumeMounts: |
+  - name: theme
+    mountPath: /opt/jboss/keycloak/standalone/deployments
+  - name: realm-secret
+    mountPath: "/realm/"
+    readOnly: true
+
+extraVolumes: |
+  - name: theme
+    emptyDir: {}
+  - name: realm-secret
+    secret:
+      secretName: realm-secret
