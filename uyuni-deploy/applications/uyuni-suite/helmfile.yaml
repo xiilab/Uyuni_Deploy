@@ -7,3 +7,5 @@ releases:
     command: "./helmify"
     args: ["{{`{{if eq .Event.Name \"prepare\"}}build{{else}}clean{{end}}`}}", "{{`{{.Release.Ch\
 art}}`}}", "{{`{{ .Values.uyunisuite.env }}`}}"]
+  labels:
+    app: uyuni-suite

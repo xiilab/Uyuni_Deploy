@@ -6,5 +6,7 @@ releases:
 - name: prometheus
   namespace: prometheus
   chart: prometheus-community/kube-prometheus-stack
+  labels:
+    app: prometheus
   values:
     - values.yaml.gotmpl

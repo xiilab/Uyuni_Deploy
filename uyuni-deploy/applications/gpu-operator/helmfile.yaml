@@ -7,8 +7,11 @@ releases:
     namespace: gpu-operator
     chart: nvidia/gpu-operator
     wait: true
+    labels:
+      app: gpu-operator
     set:
       - name: driver.enabled
         value: false
       - name: toolkit.enabled
         value: false
+

@@ -8,6 +8,8 @@ releases:
     namespace: metallb
     chart: metallb/metallb
     wait: true
+    labels:
+      app: metallb
     values:
       - configInline:
           address-pools:

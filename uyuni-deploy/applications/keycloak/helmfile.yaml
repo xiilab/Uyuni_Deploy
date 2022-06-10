@@ -7,11 +7,15 @@ releases:
     namespace: keycloak
     chart: ./uyuni-realm
     wait: true
+    labels:
+      app: keycloak
     
   - name: keycloak
     namespace: keycloak
     chart: codecentric/keycloak
     wait: true
+    labels:
+      app: keycloak
     values:
     - values.yaml.gotmpl
     needs: 

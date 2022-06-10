@@ -7,6 +7,8 @@ releases:
   namespace: cert-manager
   chart: jetstack/cert-manager
   version: v1.7.1
+  labels:
+    app: cert-manager
   values:
     - installCRDs: true
 
@@ -19,3 +21,5 @@ releases:
   disableValidation: true
   needs:
     - cert-manager/cert-manager
+  labels:
+    app: cert-manager

@@ -7,3 +7,5 @@ releases:
     namespace: ingress-nginx
     chart: ingress-nginx/ingress-nginx
     wait: true
+    labels:
+      app: ingress-nginx

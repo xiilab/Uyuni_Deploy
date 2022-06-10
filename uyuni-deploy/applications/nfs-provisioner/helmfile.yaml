@@ -7,5 +7,7 @@ releases:
     namespace: nfs-provisioner
     chart: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
     wait: true
+    labels:
+      app: nfs-provisioner
     values:
     - values.yaml.gotmpl

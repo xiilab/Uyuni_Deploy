@@ -281,9 +281,11 @@ data:
     character-set-server           = utf8mb4
     collation-server               = utf8mb4_unicode_ci
     bind-address                   = 0.0.0.0
+    interactive_timeout            = 60
+    wait_timeout                   = 60
 kind: ConfigMap
 metadata:
-  name: mariadb-config-2288kd4h98
+  name: mariadb-config-b22fh75fk5
   namespace: uyuni-suite-develop
 ---
 apiVersion: v1
@@ -505,6 +507,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: uyuni-manager-websocket
+  namespace: uyuni-suite-develop
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: uyuni-manager-websocket
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: uyuni-suite-frontend
   namespace: uyuni-suite-develop
 spec:
@@ -533,7 +548,15 @@ spec:
       - env:
         - name: SPRING_PROFILES_ACTIVE
           value: dev
-        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-batch:v0.127
+        - name: KEYCLOAK_REALM
+          value: uyuni
+        - name: KEYCLOAK_AUTHSERVERURL
+          value: http://uyuni-suite.xiilab.com/auth
+        - name: KEYCLOAK_RESOURCE
+          value: uyuni
+        - name: KEYCLOAK_PROXYURL
+          value: http://keycloak-http.keycloak.svc/auth
+        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-batch:v0.184
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
@@ -580,7 +603,15 @@ spec:
       - env:
         - name: SPRING_PROFILES_ACTIVE
           value: dev
-        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-core:v0.127
+        - name: KEYCLOAK_REALM
+          value: uyuni
+        - name: KEYCLOAK_AUTHSERVERURL
+          value: http://uyuni-suite.xiilab.com/auth
+        - name: KEYCLOAK_RESOURCE
+          value: uyuni
+        - name: KEYCLOAK_PROXYURL
+          value: http://keycloak-http.keycloak.svc/auth
+        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-core:v0.184
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
@@ -629,7 +660,15 @@ spec:
           value: dev
         - name: PROMETHEUS_URL
           value: http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090
-        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-monitor:v0.127
+        - name: KEYCLOAK_REALM
+          value: uyuni
+        - name: KEYCLOAK_AUTHSERVERURL
+          value: http://uyuni-suite.xiilab.com/auth
+        - name: KEYCLOAK_RESOURCE
+          value: uyuni
+        - name: KEYCLOAK_PROXYURL
+          value: http://keycloak-http.keycloak.svc/auth
+        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-monitor:v0.184
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
@@ -653,6 +692,61 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: uyuni-manager-websocket
+  namespace: uyuni-suite-develop
+spec:
+  selector:
+    matchLabels:
+      app: uyuni-manager-websocket
+  template:
+    metadata:
+      labels:
+        app: uyuni-manager-websocket
+    spec:
+      containers:
+      - env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+        - name: KEYCLOAK_REALM
+          value: uyuni
+        - name: KEYCLOAK_AUTHSERVERURL
+          value: http://uyuni-suite.xiilab.com/auth
+        - name: KEYCLOAK_RESOURCE
+          value: uyuni
+        - name: KEYCLOAK_PROXYURL
+          value: http://keycloak-http.keycloak.svc/auth
+        image: harbor.xiilab.com/uyuni-suite-dev/uyuni-manager-websocket:v0.184
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        name: uyuni-manager-websocket
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - mountPath: /root/.kube
+          name: kube-config
+          readOnly: true
+      imagePullSecrets:
+      - name: regcred-d6fkf5h58h
+      volumes:
+      - name: kube-config
+        secret:
+          secretName: kube-config-28h78gcg2m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: uyuni-suite-frontend
   namespace: uyuni-suite-develop
 spec:
@@ -665,7 +759,7 @@ spec:
         app: uyuni-suite-frontend
     spec:
       containers:
-      - image: harbor.xiilab.com/uyuni-suite-dev/uyuni-suite-frontend:v0.28
+      - image: harbor.xiilab.com/uyuni-suite-dev/uyuni-suite-frontend:v0.57
         name: uyuni-suite-frontend
         ports:
         - containerPort: 80
@@ -720,7 +814,7 @@ spec:
           name: initdb-script-config
       volumes:
       - configMap:
-          name: mariadb-config-2288kd4h98
+          name: mariadb-config-b22fh75fk5
         name: mariadb-config
       - configMap:
           name: initdb-script-config-88t2hh9k4m
@@ -738,6 +832,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    nginx.org/websocket-services: uyuni-manager-websocket
   name: ingress-uyuni-suite
   namespace: uyuni-suite-develop
 spec:
@@ -780,4 +876,11 @@ spec:
             port:
               number: 80
         path: /
+        pathType: Prefix
+      - backend:
+          service:
+            name: uyuni-manager-websocket
+            port:
+              number: 8080
+        path: /terminal
         pathType: Prefix

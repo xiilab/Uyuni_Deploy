@@ -7,5 +7,7 @@ releases:
     namespace: harbor
     chart: harbor/harbor
     wait: true
+    labels:
+      app: harbor
     values:
     - values.yaml.gotmpl
