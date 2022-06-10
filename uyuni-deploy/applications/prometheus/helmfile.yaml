@@ -8,5 +8,6 @@ releases:
   chart: prometheus-community/kube-prometheus-stack
   labels:
     app: prometheus
+    type: essential
   values:
     - values.yaml.gotmpl

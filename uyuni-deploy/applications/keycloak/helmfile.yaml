@@ -9,6 +9,7 @@ releases:
     wait: true
     labels:
       app: keycloak
+      type: essential
     
   - name: keycloak
     namespace: keycloak
@@ -16,6 +17,7 @@ releases:
     wait: true
     labels:
       app: keycloak
+      type: essential
     values:
     - values.yaml.gotmpl
     needs: 

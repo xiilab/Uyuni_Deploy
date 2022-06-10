@@ -15,7 +15,7 @@ ingress:
   servicePort: http
   # Ingress annotations
   annotations:
-    cert-manager.io/cluster-issuer: selfsigned-issuer
+#    cert-manager.io/cluster-issuer: selfsigned-issuer
     nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
   rules:
     -
@@ -26,10 +26,10 @@ ingress:
         - path: /
           pathType: Prefix
   # TLS configuration
-  tls:
-    - hosts:
-        - keycloak.xiilab.com
-      secretName: "keycloak-tls-secret-ca"
+#  tls:
+#    - hosts:
+#        - keycloak.xiilab.com
+#      secretName: "keycloak-tls-secret-ca"
 
 extraInitContainers: | 
   - name: init-customtheme

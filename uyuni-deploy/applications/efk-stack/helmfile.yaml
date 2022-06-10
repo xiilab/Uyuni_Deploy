@@ -13,6 +13,7 @@ releases:
     - replicas: 2
     labels:
       app: efk-stack
+      type: logging
 
   - name: kibana
     namespace: efk-stack
@@ -22,6 +23,7 @@ releases:
     - kibana.yaml.gotmpl
     labels:
       app: efk-stack
+      type: logging
 
   - name: fluentd
     namespace: efk-stack
@@ -31,3 +33,4 @@ releases:
     - fluetnd.yaml
     labels:
       app: efk-stack
+      type: logging

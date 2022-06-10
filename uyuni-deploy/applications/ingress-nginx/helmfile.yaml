@@ -9,6 +9,7 @@ releases:
     wait: true
     labels:
       app: ingress-nginx
+      type: essential
     values:
     - controller:
         service:
