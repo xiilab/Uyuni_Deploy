@@ -1,0 +1,20 @@
+cp-zookeeper:
+  enabled: true
+  servers: 1
+cp-kafka:
+  enabled: true
+  brokers: 1
+  nodeport:
+    enabled: true
+    servicePort: 19092
+    firstListenerPort: 31090
+cp-schema-registry:
+  enabled: false
+cp-kafka-rest:
+  enabled: false
+cp-kafka-connect:
+  enabled: false
+cp-ksql-server:
+  enabled: false
+cp-control-center:
+  enabled: false
