@@ -11,4 +11,4 @@ releases:
       app: kafka
       type: essential
     values:
-    - values.yaml
+    - values.yaml.gotmpl

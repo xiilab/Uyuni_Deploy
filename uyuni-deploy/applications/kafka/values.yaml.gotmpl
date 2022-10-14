@@ -1,9 +1,9 @@
 cp-zookeeper:
   enabled: true
-  servers: 1
+  servers: {{ .Values.kafka.zookeeper.servers }}
 cp-kafka:
   enabled: true
-  brokers: 1
+  brokers: {{ .Values.kafka.kafka.servers }}
 cp-schema-registry:
   enabled: false
 cp-kafka-rest:

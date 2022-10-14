@@ -6,6 +6,12 @@ ingress:
   servicetype: NodePort
   loadBalancerIP: 192.168.56.20
 
+kafka:
+  zookeeper:
+    servers: 1
+  kafka:
+    servers: 1
+
 nfsprovisioner:
   nfs:
     server: "192.168.2.27"
