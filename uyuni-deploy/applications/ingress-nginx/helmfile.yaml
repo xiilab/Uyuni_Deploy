@@ -9,13 +9,6 @@ releases:
     wait: true
     labels:
       app: ingress-nginx
-      type: essential
+      type: base
     values:
-    - controller:
-        service:
-          type: NodePort
-          nodePorts:
-            http: 32080
-            https: 32443
-            tcp:
-              8080: 32808
+    - values.yaml.gotmpl
