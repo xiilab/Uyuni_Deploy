@@ -3,8 +3,8 @@ common:
     domain: "bigdata-car.kr"
 
 ingress:
-  servicetype: NodePort
-  loadBalancerIP: 192.168.56.20
+  servicetype: LoadBalancer
+  loadBalancerIP: 192.168.1.210
   nodeports:
     http: 32080
     https: 32443
@@ -22,7 +22,7 @@ nfsprovisioner:
 
 
 metallb:
-  addresses: 192.168.56.20-192.168.56.50
+  addresses: 192.168.1.210-192.168.1.230
 
 
 harbor:

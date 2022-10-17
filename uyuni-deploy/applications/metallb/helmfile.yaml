@@ -9,14 +9,16 @@ releases:
     chart: metallb/metallb
     wait: true
     labels:
-      type: base
+      app: metallb
+      type: infra
 
   - name: addresspool
     namespace: metallb
     chart: ./addresspool
     wait: true
     labels:
-      type: base
+      app: metallb
+      type: infra
     needs:
     - metallb
     values:
