@@ -3,7 +3,7 @@ controller:
     type: {{ .Values.ingress.servicetype }}
     loadBalancerIP: {{ .Values.ingress.loadBalancerIP }}
     nodePorts:
-      http: 32080
-      https: 32443
+      http: {{ .Values.ingress.nodeports.http }}
+      https: {{ .Values.ingress.nodeports.https }}
       tcp:
         8080: 32808

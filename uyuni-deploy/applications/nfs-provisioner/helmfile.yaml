@@ -9,6 +9,6 @@ releases:
     wait: true
     labels:
       app: nfs-provisioner
-      type: essential
+      type: storage
     values:
     - values.yaml.gotmpl

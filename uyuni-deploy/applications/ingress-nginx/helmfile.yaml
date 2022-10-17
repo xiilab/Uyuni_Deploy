@@ -9,6 +9,6 @@ releases:
     wait: true
     labels:
       app: ingress-nginx
-      type: base
+      type: infra
     values:
     - values.yaml.gotmpl

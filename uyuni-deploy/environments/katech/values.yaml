@@ -5,6 +5,9 @@ common:
 ingress:
   servicetype: NodePort
   loadBalancerIP: 192.168.56.20
+  nodeports:
+    http: 32080
+    https: 32443
 
 kafka:
   zookeeper:
