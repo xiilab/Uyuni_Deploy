@@ -19,8 +19,7 @@ nfsprovisioner:
 
 
 metallb:
-  address-pools:
-    addresses: 192.168.56.20-192.168.56.50
+  addresses: 192.168.56.20-192.168.56.50
 
 
 harbor:
