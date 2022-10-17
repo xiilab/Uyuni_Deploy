@@ -1,6 +1,1 @@
-configInline:
-  address-pools:
-    - name: default
-      protocol: layer2
-      addresses:
-        - {{ .Values.metallb.address-pools.addresses }}
+addresses: {{ .Values.metallb.addresses }}

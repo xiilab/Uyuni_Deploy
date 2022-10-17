@@ -9,11 +9,15 @@ releases:
     chart: metallb/metallb
     wait: true
     labels:
-      app: metallb
+      type: base
+
+  - name: addresspool
+    namespace: metallb
+    chart: ./addresspool
+    wait: true
+    labels:
+      type: base
+    needs:
+    - metallb
     values:
-      - configInline:
-          address-pools:
-            - name: default
-              protocol: layer2
-              addresses:
-                - 192.168.56.20-192.168.56.50
+    - values.yaml.gotmpl
