@@ -1,6 +1,6 @@
 common:
   ingress:
-    domain: "xiilab.com"
+    domain: "bigdata-car.kr"
 
 ingress:
   servicetype: NodePort
@@ -30,4 +30,4 @@ keycloak:
   keycloakAdminPassword: xiilabPassword3#
 
 uyunisuite:
-  env: develop
+  env: katech

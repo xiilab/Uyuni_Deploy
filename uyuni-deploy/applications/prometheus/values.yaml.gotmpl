@@ -2,48 +2,29 @@ alertmanager:
   ingress:
     enabled: true
     ingressClassName: nginx
-#    annotations: 
-#      cert-manager.io/cluster-issuer: selfsigned-issuer
     hosts: 
       - alertmanager.{{ .Values.common.ingress.domain }}
     paths:
       - /
     pathType: ImplementationSpecific
-#    tls: 
-#      - secretName: alertmanager-general-tls
-#        hosts:
-#        - alertmanager.{{ .Values.common.ingress.domain }}
 
 grafana:
   ingress:
     enabled: true
     ingressClassName: nginx
-#    annotations: 
-#      cert-manager.io/cluster-issuer: selfsigned-issuer
     hosts:
       - grafana.{{ .Values.common.ingress.domain }}
     path: /
-#    tls: 
-#      - secretName: grafana-general-tls
-#        hosts:
-#        - grafana.{{ .Values.common.ingress.domain }}
-
 
 prometheus:
   ingress:
     enabled: true
     ingressClassName: nginx
-#    annotations: 
-#      cert-manager.io/cluster-issuer: selfsigned-issuer
     hosts:
       - prometheus.{{ .Values.common.ingress.domain }}
     paths: 
       - /
     pathType: ImplementationSpecific
-#    tls: 
-#      - secretName: prometheus-general-tls
-#        hosts:
-#          - prometheus.{{ .Values.common.ingress.domain }}
   prometheusSpec:
     shards: null
     serviceMonitorSelectorNilUsesHelmValues: false
