@@ -1,4 +1,20 @@
 controller:
+  image:
+    ## Keep false as default for now!
+    chroot: false
+    registry: registry.k8s.io
+    image: ingress-nginx/controller
+    ## for backwards compatibility consider setting the full image url via the repository value below
+    ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
+    ## repository:
+    tag: "v1.3.1"
+    digest: sha256:34ee929b111ffc7aa426ffd409af44da48e5a0eea1eb2207994d9e0c0882d143
+    digestChroot: sha256:b67e889f1db8692de7e41d4d9aef8de56645bf048261f31fa7f8bfc6ea2222a0
+    pullPolicy: IfNotPresent
+    # www-data -> uid 101
+    runAsUser: 101
+    allowPrivilegeEscalation: true
+
   service:
     type: {{ .Values.ingress.servicetype }}
     loadBalancerIP: {{ .Values.ingress.loadBalancerIP }}
