@@ -4,6 +4,10 @@ cp-zookeeper:
 cp-kafka:
   enabled: true
   brokers: {{ .Values.kafka.kafka.servers }}
+  configurationOverrides:
+    "offsets.topic.replication.factor": "1"
+    "default.replication.factor": "1"
+    "confluent.metrics.reporter.topic.replicas": "1"
 cp-schema-registry:
   enabled: false
 cp-kafka-rest:
