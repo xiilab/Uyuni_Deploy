@@ -9,6 +9,6 @@ releases:
     wait: true
     labels:
       app: kafka
-      type: essential
+      type: app
     values:
     - values.yaml.gotmpl

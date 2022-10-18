@@ -1,3 +1,0 @@
-[submodule "uyuni-deploy/applications/uyuni-suite/uyuni-kustomize"]
-	path = uyuni-deploy/applications/uyuni-suite/uyuni-kustomize
-	url = https://github.com/xiilab-team/Uyuni_Kustomize.git

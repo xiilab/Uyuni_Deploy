@@ -9,4 +9,4 @@ releases:
 art}}`}}", "{{`{{ .Values.uyunisuite.env }}`}}"]
   labels:
     app: uyuni-suite
-    type: essential
+    type: app
