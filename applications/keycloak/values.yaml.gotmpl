@@ -59,3 +59,25 @@ extraVolumes: |
   - name: realm-secret
     secret:
       secretName: realm-secret
+
+{{- with .Values.keycloak.nodeSelector }}
+nodeSelector:
+  {{- toYaml . | nindent 8 }}
+{{- end }}
+
+{{- with .Values.keycloak.tolerations }}
+tolerations:
+  {{- toYaml . | nindent 8 }}
+{{- end }}
+
+postgresql:
+  primary:
+    {{- with .Values.keycloak.nodeSelector }}
+    nodeSelector:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+
+    {{- with .Values.keycloak.tolerations }}
+    tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}

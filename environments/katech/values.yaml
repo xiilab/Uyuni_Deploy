@@ -30,6 +30,12 @@ harbor:
 
 keycloak:
   keycloakAdminPassword: xiilabPassword3#
+  nodeSelector: 
+    kubernetes.io/hostname: master03
+  tolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 uyunisuite:
   env: katech

@@ -16,6 +16,8 @@ harbor:
 
 keycloak:
   keycloakAdminPassword: Keycloak12345
+  nodeSelector: {} 
+  tolerations: []
 
 uyunisuite:
   env: develop

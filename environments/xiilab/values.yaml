@@ -18,6 +18,8 @@ harbor:
 
 keycloak:
   keycloakAdminPassword: xiilabPassword3#
+  nodeSelector: {}
+  tolerations: []
 
 uyunisuite:
   env: develop
