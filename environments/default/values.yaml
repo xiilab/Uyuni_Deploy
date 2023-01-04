@@ -19,5 +19,9 @@ keycloak:
   nodeSelector: {} 
   tolerations: []
 
+prometheus:
+  nodeSelector: {}
+  tolerations: []
+
 uyunisuite:
   env: develop

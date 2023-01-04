@@ -1,4 +1,13 @@
 alertmanager:
+  alertmanagerSpec:
+    {{- with .Values.prometheus.nodeSelector }}
+    nodeSelector:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.prometheus.tolerations }}
+    tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -9,12 +18,40 @@ alertmanager:
     pathType: ImplementationSpecific
 
 grafana:
+  {{- with .Values.prometheus.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  {{- with .Values.prometheus.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
   ingress:
     enabled: true
     ingressClassName: nginx
     hosts:
       - grafana.{{ .Values.common.ingress.domain }}
     path: /
+
+prometheusOperator:
+  {{- with .Values.prometheus.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  {{- with .Values.prometheus.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+
+kube-state-metrics:
+  {{- with .Values.prometheus.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  {{- with .Values.prometheus.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
 
 prometheus:
   ingress:
@@ -26,6 +63,14 @@ prometheus:
       - /
     pathType: ImplementationSpecific
   prometheusSpec:
+    {{- with .Values.prometheus.nodeSelector }}
+    nodeSelector:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.prometheus.tolerations }}
+    tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}  
     shards: null
     serviceMonitorSelectorNilUsesHelmValues: false
     additionalScrapeConfigs:
