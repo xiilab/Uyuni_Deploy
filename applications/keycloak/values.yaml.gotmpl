@@ -41,7 +41,7 @@ extraInitContainers: |
     args:
       - -c
       - | 
-       wget https://github.com/xiilab-team/keycloak-theme-uyuni/releases/download/v1.1.3/uyuni-suite-keycloak-theme-1.1.3.jar -P /theme
+       wget {{ .Values.keycloak.themeUrl }} -P /theme
     volumeMounts:
       - name: theme
         mountPath: /theme

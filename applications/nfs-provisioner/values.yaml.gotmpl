@@ -3,3 +3,4 @@ nfs:
   path: {{ .Values.nfsprovisioner.nfs.path }}
 storageClass:
   defaultClass: true
+  reclaimPolicy: Retain

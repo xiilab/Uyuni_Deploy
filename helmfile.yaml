@@ -10,6 +10,9 @@ environments:
   xiilab:
     values:
     - environments/xiilab/values.yaml
+  test:
+    values:
+    - environments/test/values.yaml
 
 helmDefaults:
   wait: true

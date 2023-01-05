@@ -4,15 +4,16 @@ common:
 
 nfsprovisioner:
   nfs:
-    server: "192.168.2.27"
-    path: "/kube_storage"
+    server: "192.168.56.13"
+    path: "/root/uyuni-storage"
 
 metallb:
   address-pools:
     addresses: 192.168.56.20-192.168.56.50
 
 kafka:
-  nodeSelector: {}
+  nodeSelector: 
+    kubernetes.io/hostname: node2
   tolerations: []
   zookeeper:
     servers: 1
@@ -22,9 +23,11 @@ kafka:
 keycloak:
   keycloakAdminPassword: Keycloak12345
   themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.4.2/uyuni-suite-keycloak-theme-1.2.4-dev.jar
-  nodeSelector: {} 
+  nodeSelector: 
+    kubernetes.io/hostname: node2 
   tolerations: []
 
 prometheus:
-  nodeSelector: {}
+  nodeSelector: 
+    kubernetes.io/hostname: node3
   tolerations: []
