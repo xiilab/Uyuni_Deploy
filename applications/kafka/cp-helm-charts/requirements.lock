@@ -1,0 +1,24 @@
+dependencies:
+- name: cp-kafka
+  repository: file://./charts/cp-kafka
+  version: 0.1.0
+- name: cp-zookeeper
+  repository: file://./charts/cp-zookeeper
+  version: 0.1.0
+- name: cp-schema-registry
+  repository: file://./charts/cp-schema-registry
+  version: 0.1.0
+- name: cp-kafka-rest
+  repository: file://./charts/cp-kafka-rest
+  version: 0.1.0
+- name: cp-kafka-connect
+  repository: file://./charts/cp-kafka-connect
+  version: 0.1.0
+- name: cp-ksql-server
+  repository: file://./charts/cp-ksql-server
+  version: 0.1.0
+- name: cp-control-center
+  repository: file://./charts/cp-control-center
+  version: 0.1.0
+digest: sha256:35110de8c45ffc91427d2d5957e87aad8066fde8202b0404d74a93369ca847a5
+generated: "2023-01-04T17:45:37.945322+09:00"

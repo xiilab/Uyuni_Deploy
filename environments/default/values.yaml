@@ -11,8 +11,13 @@ metallb:
   address-pools:
     addresses: 192.168.56.20-192.168.56.50
 
-harbor:
-  harborAdminPassword: Harbor12345
+kafka:
+  nodeSelector: {}
+  tolerations: []
+  zookeeper:
+    servers: 1
+  kafka:
+    servers: 1
 
 keycloak:
   keycloakAdminPassword: Keycloak12345
@@ -22,6 +27,3 @@ keycloak:
 prometheus:
   nodeSelector: {}
   tolerations: []
-
-uyunisuite:
-  env: develop

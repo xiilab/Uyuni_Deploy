@@ -5,7 +5,8 @@ repositories:
 releases:
   - name: kafka
     namespace: kafka
-    chart: confluentinc/cp-helm-charts
+    #chart: confluentinc/cp-helm-charts
+    chart: cp-helm-charts
     wait: true
     labels:
       app: kafka

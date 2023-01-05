@@ -64,7 +64,6 @@ extraVolumes: |
 nodeSelector:
   {{- toYaml . | nindent 8 }}
 {{- end }}
-
 {{- with .Values.keycloak.tolerations }}
 tolerations:
   {{- toYaml . | nindent 8 }}
