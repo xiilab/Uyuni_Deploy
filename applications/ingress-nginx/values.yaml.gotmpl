@@ -16,10 +16,10 @@ controller:
     allowPrivilegeEscalation: true
 
   service:
-    type: {{ .Values.ingress.servicetype }}
-    loadBalancerIP: {{ .Values.ingress.loadBalancerIP }}
+    type: {{ .Values.ingressnginx.servicetype }}
+    loadBalancerIP: {{ .Values.ingressnginx.loadBalancerIP }}
     nodePorts:
-      http: {{ .Values.ingress.nodeports.http }}
-      https: {{ .Values.ingress.nodeports.https }}
+      http: {{ .Values.ingressnginx.nodeports.http }}
+      https: {{ .Values.ingressnginx.nodeports.https }}
       tcp:
         8080: 32808
