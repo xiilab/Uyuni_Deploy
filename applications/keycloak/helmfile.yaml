@@ -9,7 +9,7 @@ releases:
     wait: true
     labels:
       app: keycloak
-      type: app
+      type: base
     
   - name: keycloak
     namespace: keycloak
@@ -17,7 +17,7 @@ releases:
     wait: true
     labels:
       app: keycloak
-      type: app
+      type: base
     values:
     - values.yaml.gotmpl
     needs: 

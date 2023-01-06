@@ -1,5 +1,6 @@
 alertmanager:
   alertmanagerSpec:
+    portName: "http-web"
     {{- with .Values.prometheus.nodeSelector }}
     nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -34,6 +35,7 @@ grafana:
     path: /
 
 prometheusOperator:
+  enabled: true  
   {{- with .Values.prometheus.nodeSelector }}
   nodeSelector:
     {{- toYaml . | nindent 8 }}

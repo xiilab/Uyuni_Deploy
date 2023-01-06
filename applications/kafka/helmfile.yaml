@@ -10,6 +10,6 @@ releases:
     wait: true
     labels:
       app: kafka
-      type: app
+      type: base
     values:
     - values.yaml.gotmpl
