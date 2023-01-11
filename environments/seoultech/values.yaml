@@ -11,7 +11,7 @@ ingressnginx:
 
 nfsprovisioner:
   nfs:
-    server: "192.168.56.13"
+    server: "192.168.1.12"
     path: "/root/uyuni-storage"
   nodeSelector: {}
   tolerations: []
@@ -21,20 +21,31 @@ metallb:
     addresses: 192.168.56.20-192.168.56.50
 
 kafka:
-  nodeSelector: {}
-  tolerations: []
+  nodeSelector:
+    kubernetes.io/hostname=GPU-MGMT
+  tolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"    
   zookeeper:
     servers: 1
   kafka:
     servers: 1
 
 keycloak:
-  keycloakAdminPassword: Keycloak12345
+  keycloakAdminPassword: xiilabPassword3#
   themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.4.2-seoultech/uyuni-suite-keycloak-theme-1.2.4.2-seoultech.jar
-  nodeSelector: {} 
-  tolerations: []
+  nodeSelector:
+    kubernetes.io/hostname=GPU-MGMT
+  tolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 prometheus:
-  nodeSelector: {}
-  tolerations: []
-
+  nodeSelector:
+    kubernetes.io/hostname=GPU-MGMT
+  tolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
