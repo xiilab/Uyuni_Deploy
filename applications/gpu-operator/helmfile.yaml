@@ -10,9 +10,5 @@ releases:
     labels:
       app: gpu-operator
       type: base
-    set:
-      - name: driver.enabled
-        value: false
-      - name: toolkit.enabled
-        value: false
-
+    values:
+    - values.yaml
