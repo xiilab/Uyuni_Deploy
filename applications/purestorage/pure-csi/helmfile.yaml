@@ -1,0 +1,14 @@
+repositories:
+  - name: pure
+    url: https://purestorage.github.io/helm-charts
+
+releases:
+  - name: pure
+    namespace: pure-csi
+#    chart: pure/pure-csi 
+    chart: ./pure-csi
+    wait: true
+    labels:
+      name: purestorage
+    values:
+    - values.yaml
