@@ -1,9 +1,0 @@
-{
-  "FlashBlades": [
-    {
-      "MgmtEndPoint": "192.168.1.11",
-      "APIToken": "T-41377fb6-f11d-46fa-9aba-45537caf53d2",
-      "NFSEndPoint": "192.168.1.12"
-    }
-  ]
-}
