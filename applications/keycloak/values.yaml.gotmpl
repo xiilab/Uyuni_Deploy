@@ -35,7 +35,7 @@ ingress:
 
 extraInitContainers: | 
   - name: init-customtheme
-    image: busybox
+    image: jacobcarlborg/docker-alpine-wget
     command:
       - sh
     args:
