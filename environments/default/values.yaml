@@ -30,7 +30,7 @@ kafka:
 
 keycloak:
   keycloakAdminPassword: Keycloak12345
-  themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6/uyuni-suite-keycloak-theme-v1.2.6.jar
+  themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6.1/uyuni-suite-keycloak-theme-v1.2.6.1.jar
   nodeSelector: {} 
   tolerations: []
 
