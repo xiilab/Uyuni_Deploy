@@ -72,6 +72,12 @@ environments:
 helmfile --environment <helmfile.yaml에 정의한 환경변수 이름> sync
 ex) helmfile --environment xiilab sync
 
+- metalib 비활성화
+
+```sh
+helmfile --environment itmaya -l type=base sync
+```
+
 # 제거
 helmfile --environment <helmfile.yaml에 정의한 환경변수 이름> destroy
 ex) helmfile --environment xiilab destroy
