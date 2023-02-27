@@ -31,6 +31,7 @@
 
 ## 환경설정 방법
 1. environments 폴더 -> 각 환경별 폴더를 생성해주고 values.yaml 파일을 생성.
+2. 
 ```
 common:
   ingress:
@@ -47,7 +48,9 @@ harbor:
 keycloak:
   keycloakAdminPassword: password
 ```
+
 2. root폴더에 있는 helmfile.yaml의 environments: 부분에 생성한 values.yaml 경로를 추가
+
 ```
 environments:
   default:
@@ -67,10 +70,10 @@ environments:
 ## 명령어
 ### 인프라 설치(root helmfile.yaml이 있는곳에서 실행)
 #### helmfile을 이용하여 인프라 설치및 제거
-```
+
 # 설치
 helmfile --environment <helmfile.yaml에 정의한 환경변수 이름> sync
-ex) helmfile --environment xiilab sync
+- ex) `helmfile --environment xiilab sync`
 
 - metalib 비활성화
 
@@ -80,8 +83,8 @@ helmfile --environment itmaya -l type=base sync
 
 # 제거
 helmfile --environment <helmfile.yaml에 정의한 환경변수 이름> destroy
-ex) helmfile --environment xiilab destroy
-```
+- ex) `helmfile --environment xiilab destroy`
+
 
 #### type별로 설치 및 제거
 ```
