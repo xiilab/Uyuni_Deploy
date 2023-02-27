@@ -41,7 +41,7 @@ extraInitContainers: |
     args:
       - -c
       - | 
-       wget {{ .Values.keycloak.themeUrl }} -P /theme
+       echo "check_certificate = off" >> ~/.wgetrc && wget {{ .Values.keycloak.themeUrl }} -P /theme
     volumeMounts:
       - name: theme
         mountPath: /theme
