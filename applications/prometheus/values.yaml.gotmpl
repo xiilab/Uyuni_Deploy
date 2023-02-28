@@ -46,6 +46,11 @@ prometheusOperator:
   {{- end }}
 
 kube-state-metrics:
+  prometheus:
+    monitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus-operator
   {{- with .Values.prometheus.nodeSelector }}
   nodeSelector:
     {{- toYaml . | nindent 8 }}
