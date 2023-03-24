@@ -27,10 +27,6 @@ helmfiles:
   values:
   - {{ toYaml .Values | nindent 4 }}
 
-- path: applications/metallb/helmfile.yaml
-  values:
-  - {{ toYaml .Values | nindent 4 }}    
-
 - path: applications/nfs-provisioner/helmfile.yaml
   values:
   - {{ toYaml .Values | nindent 4 }}
