@@ -11,14 +11,10 @@ ingressnginx:
 
 nfsprovisioner:
   nfs:
-    server: "192.168.2.27"
+    server: "192.168.56.13"
     path: "/kube_storage"
   nodeSelector: {}
   tolerations: []
-
-metallb:
-  address-pools:
-    addresses: 192.168.56.20-192.168.56.50
 
 kafka:
   nodeSelector: {}
@@ -29,7 +25,7 @@ kafka:
     servers: 1
 
 keycloak:
-  keycloakAdminPassword: Keycloak12345
+  keycloakAdminPassword: xiilabPassword3#
   themeUrl:  https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6.1/uyuni-suite-keycloak-theme-v1.2.6.1.jar
   nodeSelector: {} 
   tolerations: []
