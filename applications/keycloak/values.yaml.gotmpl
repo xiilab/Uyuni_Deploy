@@ -12,6 +12,10 @@ extraEnv: |
 
 service:
   type: NodePort
+  # The HTTP Service node port if type is NodePort
+  httpNodePort: null
+  # The HTTPS Service node port if type is NodePort
+  httpsNodePort: null
 
 ingress:
   enabled: true
