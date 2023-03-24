@@ -6,6 +6,7 @@ releases:
   - name: nfs-provisioner
     namespace: nfs-provisioner
     chart: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+    version: ~4.0.18
     wait: true
     labels:
       app: nfs-provisioner
