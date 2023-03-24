@@ -1,11 +1,14 @@
 repositories:
 - name: prometheus-community
   url: https://prometheus-community.github.io/helm-charts
+- name: grafana
+  url: https://grafana.github.io/helm-charts
 
 releases:
 - name: prometheus
   namespace: prometheus
   chart: prometheus-community/kube-prometheus-stack
+  version: ~45.7.1
   labels:
     app: prometheus
     type: base
