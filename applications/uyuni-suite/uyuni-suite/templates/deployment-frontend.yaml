@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "uyuni-suite.fullname" . }}-frontend"
+  labels:
+    {{- include "uyuni-suite.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.uyuni.frontend.autoscaling.enabled }}
+  replicas: {{ .Values.uyuni.frontend.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: uyuni-suite-frontend
+  template:
+    metadata:
+      {{- with .Values.uyuni.frontend.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: uyuni-suite-frontend
+    spec:
+      {{- with .Values.uyuni.frontend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "uyuni-suite.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.uyuni.frontend.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.uyuni.frontend.securityContext | nindent 12 }}
+          image: "{{ .Values.uyuni.frontend.image.repository }}:{{ .Values.uyuni.frontend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.uyuni.frontend.image.pullPolicy }}
+          env:
+          - name: REACT_APP_KEYCLOAK_REALM
+            value: uyuni
+          - name: REACT_APP_KEYCLOAK_CLIENT_ID
+            value: uyuni
+          - name: REACT_APP_KEYCLOAK_URL
+            value: "{{ .Values.uyuni.common.keycloak.url }}"
+          {{- if .Values.uyuni.frontend.env }}
+          {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.frontend.env "context" $) | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.uyuni.frontend.resources | nindent 12 }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{ .Release.Name }}-frontend-config
+      {{- with .Values.uyuni.frontend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.uyuni.frontend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.uyuni.frontend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

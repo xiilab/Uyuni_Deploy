@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: uyuni-role
+rules:
+  - apiGroups: ["*"]
+    resources: ["statefulsets", "services", "daemonsets", "pods", "configmaps", "configmaps", "nodes", "ingresses"]
+    verbs: ["*"]

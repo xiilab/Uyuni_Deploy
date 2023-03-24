@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "uyuni-suite.fullname" . }}-batch"
+  labels:
+    {{- include "uyuni-suite.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.uyuni.batch.autoscaling.enabled }}
+  replicas: {{ .Values.uyuni.batch.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: uyuni-suite-batch
+  template:
+    metadata:
+      {{- with .Values.uyuni.batch.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: uyuni-suite-batch
+    spec:
+      {{- with .Values.uyuni.batch.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "uyuni-suite.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.uyuni.batch.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.uyuni.batch.securityContext | nindent 12 }}
+          image: "{{ .Values.uyuni.batch.image.repository }}:{{ .Values.uyuni.batch.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.uyuni.batch.image.pullPolicy }}
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+          - name: K8S_NAMESPACE
+            value: "{{ .Release.Namespace }}"
+          {{- if .Values.uyuni.batch.env }}
+          {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.batch.env "context" $) | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: tomcat
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.uyuni.batch.resources | nindent 12 }}
+      {{- with .Values.uyuni.batch.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.uyuni.batch.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.uyuni.batch.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

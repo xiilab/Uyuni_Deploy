@@ -1,0 +1,9 @@
+releases:
+- name: uyuni-suite
+  namespace: uyuni-suite
+  chart: uyuni-suite
+  wait: true
+  labels:
+    app: uyuni-suite
+  values:
+  - values.yaml

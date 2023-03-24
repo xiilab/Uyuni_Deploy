@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ include "uyuni-suite.fullname" . }}-frontend"
+  labels:
+    {{- include "uyuni-suite.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.uyuni.common.service.type }}
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+      {{- if (and (eq .Values.uyuni.common.service.type "NodePort") (not (empty .Values.uyuni.common.service.nodePort))) }}
+      nodePort: {{ .Values.uyuni.common.service.nodePort }}
+      {{- end }}
+  selector:
+    app: uyuni-suite-frontend

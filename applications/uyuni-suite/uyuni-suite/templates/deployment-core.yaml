@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "uyuni-suite.fullname" . }}-core"
+  labels:
+    {{- include "uyuni-suite.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.uyuni.core.autoscaling.enabled }}
+  replicas: {{ .Values.uyuni.core.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: uyuni-suite-core
+  template:
+    metadata:
+      {{- with .Values.uyuni.core.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: uyuni-suite-core
+    spec:
+      {{- with .Values.uyuni.core.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "uyuni-suite.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.uyuni.core.podSecurityContext | nindent 8 }}
+      {{- with .Values.uyuni.common.keycloak.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.uyuni.core.securityContext | nindent 12 }}
+          image: "{{ .Values.uyuni.core.image.repository }}:{{ .Values.uyuni.core.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.uyuni.core.image.pullPolicy }}
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+          - name: KEYCLOAK_REALM
+            value: uyuni
+          - name: KEYCLOAK_AUTHSERVERURL
+            value: "{{ .Values.uyuni.common.keycloak.url }}"
+          - name: KEYCLOAK_RESOURCE
+            value: uyuni
+          - name: K8S_NAMESPACE
+            value: "{{ .Release.Namespace }}"
+          - name: UYUNIHOST
+          {{- with (index .Values.uyuni.common.ingress.hosts 0) }}
+            value: "{{ .host }}"
+          {{- end }}
+          {{- if .Values.uyuni.core.env }}
+          {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.core.env "context" $) | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: tomcat
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.uyuni.core.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: "/root/.kube"
+              name: kube-config
+              readOnly: true
+            - mountPath: "/root/uyuni"
+              name: uyuni-pvc
+      {{- with .Values.uyuni.core.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.uyuni.core.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.uyuni.core.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: kube-config
+          secret:
+            secretName: kube-config
+        - name: uyuni-pvc
+          {{- if .Values.uyuni.common.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.uyuni.common.persistence.existingClaim }}{{ .Values.uyuni.common.persistence.existingClaim }}
+            {{- else }}"uyuni-pvc"{{- end }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
