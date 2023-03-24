@@ -10,6 +10,9 @@ extraEnv: |
   - name: TZ
     value: "Asia/Seoul"
 
+service:
+  type: NodePort
+
 ingress:
   enabled: true
   ingressClassName: "nginx"
