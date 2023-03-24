@@ -6,6 +6,7 @@ releases:
   - name: gpu-operator
     namespace: gpu-operator
     chart: nvidia/gpu-operator
+    version: ~v22.9.2
     wait: true
     labels:
       app: gpu-operator
