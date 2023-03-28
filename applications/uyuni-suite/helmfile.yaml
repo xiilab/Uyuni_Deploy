@@ -4,6 +4,7 @@ releases:
   chart: uyuni-suite
   wait: true
   labels:
+    type: app
     app: uyuni-suite
   values:
   - values.yaml.gotmpl
