@@ -42,6 +42,7 @@ uyuni:
     #     - "uyuni-suite.xiilab.com"
     keycloak:
       url: ""
+      adminPassword: ""
       hostAliases: []
 
     persistence:

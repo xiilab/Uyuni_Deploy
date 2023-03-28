@@ -25,11 +25,17 @@ kafka:
     servers: 1
 
 keycloak:
-  keycloakAdminPassword: xiilabPassword3#
+  keycloakAdminPassword: keycloak12345
   themeUrl:  https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6.1/uyuni-suite-keycloak-theme-v1.2.6.1.jar
+  nodePort: 30090
   nodeSelector: {} 
   tolerations: []
 
 prometheus:
   nodeSelector: {}
   tolerations: []
+
+uyuni:
+  nodePort: 30080
+  keycloakUrl: http://192.168.56.11:30090/auth
+  

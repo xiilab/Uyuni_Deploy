@@ -13,7 +13,7 @@ extraEnv: |
 service:
   type: NodePort
   # The HTTP Service node port if type is NodePort
-  httpNodePort: null
+  httpNodePort: "{{ .Values.keycloak.nodePort }}"
   # The HTTPS Service node port if type is NodePort
   httpsNodePort: null
 

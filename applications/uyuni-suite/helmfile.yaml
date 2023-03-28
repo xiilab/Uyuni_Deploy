@@ -6,4 +6,4 @@ releases:
   labels:
     app: uyuni-suite
   values:
-  - values.yaml
+  - values.yaml.gotmpl

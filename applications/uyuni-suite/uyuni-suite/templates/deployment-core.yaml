@@ -46,6 +46,8 @@ spec:
               value: "{{ .Values.uyuni.common.keycloak.url }}"
             - name: KEYCLOAK_RESOURCE
               value: uyuni
+            - name: ADMIN_PASSWORD
+              value: "{{ .Values.uyuni.common.keycloak.adminPassword }}"
             - name: K8S_NAMESPACE
               value: "{{ .Release.Namespace }}"
             - name: UYUNIHOST
