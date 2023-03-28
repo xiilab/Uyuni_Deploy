@@ -38,23 +38,23 @@ spec:
           image: "{{ .Values.uyuni.core.image.repository }}:{{ .Values.uyuni.core.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.uyuni.core.image.pullPolicy }}
           env:
-          - name: SPRING_PROFILES_ACTIVE
-            value: dev
-          - name: KEYCLOAK_REALM
-            value: uyuni
-          - name: KEYCLOAK_AUTHSERVERURL
-            value: "{{ .Values.uyuni.common.keycloak.url }}"
-          - name: KEYCLOAK_RESOURCE
-            value: uyuni
-          - name: K8S_NAMESPACE
-            value: "{{ .Release.Namespace }}"
-          - name: UYUNIHOST
-          {{- with (index .Values.uyuni.common.ingress.hosts 0) }}
-            value: "{{ .host }}"
-          {{- end }}
-          {{- if .Values.uyuni.core.env }}
-          {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.core.env "context" $) | nindent 12 }}
-          {{- end }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: KEYCLOAK_REALM
+              value: uyuni
+            - name: KEYCLOAK_AUTHSERVERURL
+              value: "{{ .Values.uyuni.common.keycloak.url }}"
+            - name: KEYCLOAK_RESOURCE
+              value: uyuni
+            - name: K8S_NAMESPACE
+              value: "{{ .Release.Namespace }}"
+            - name: UYUNIHOST
+            {{- with (index .Values.uyuni.common.ingress.hosts 0) }}
+              value: "{{ .host }}"
+            {{- end }}
+            {{- if .Values.uyuni.core.env }}
+            {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.core.env "context" $) | nindent 12 }}
+            {{- end }}
           ports:
             - name: tomcat
               containerPort: 8080
@@ -63,13 +63,13 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
           resources:
             {{- toYaml .Values.uyuni.core.resources | nindent 12 }}

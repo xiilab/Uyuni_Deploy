@@ -34,13 +34,13 @@ spec:
           image: "{{ .Values.uyuni.batch.image.repository }}:{{ .Values.uyuni.batch.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.uyuni.batch.image.pullPolicy }}
           env:
-          - name: SPRING_PROFILES_ACTIVE
-            value: dev
-          - name: K8S_NAMESPACE
-            value: "{{ .Release.Namespace }}"
-          {{- if .Values.uyuni.batch.env }}
-          {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.batch.env "context" $) | nindent 12 }}
-          {{- end }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: K8S_NAMESPACE
+              value: "{{ .Release.Namespace }}"
+            {{- if .Values.uyuni.batch.env }}
+            {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.batch.env "context" $) | nindent 8 }}
+            {{- end }}
           ports:
             - name: tomcat
               containerPort: 8080
@@ -49,13 +49,13 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
           resources:
             {{- toYaml .Values.uyuni.batch.resources | nindent 12 }}

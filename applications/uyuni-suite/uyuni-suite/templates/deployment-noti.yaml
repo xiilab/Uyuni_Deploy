@@ -34,15 +34,15 @@ spec:
           image: "{{ .Values.uyuni.noti.image.repository }}:{{ .Values.uyuni.noti.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.uyuni.noti.image.pullPolicy }}
           env:
-          - name: SPRING_PROFILES_ACTIVE
-            value: dev
-          - name: SPRING_KAFKA_CONSUMER_BOOTSTRAP-SERVERS
-            value: kafka-cp-kafka.kafka.svc:9092
-          - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP-SERVERS
-            value: kafka-cp-kafka.kafka.svc:9092
-          {{- if .Values.uyuni.noti.env }}
-          {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.noti.env "context" $) | nindent 12 }}
-          {{- end }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: SPRING_KAFKA_CONSUMER_BOOTSTRAP-SERVERS
+              value: kafka-cp-kafka.kafka.svc:9092
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP-SERVERS
+              value: kafka-cp-kafka.kafka.svc:9092
+            {{- if .Values.uyuni.noti.env }}
+            {{- include "uyuni-suite.tplvalues.render" (dict "value" .Values.uyuni.noti.env "context" $) | nindent 8 }}
+            {{- end }}
           ports:
             - name: tomcat
               containerPort: 8080
@@ -51,13 +51,13 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
           resources:
             {{- toYaml .Values.uyuni.noti.resources | nindent 12 }}
