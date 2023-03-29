@@ -205,7 +205,29 @@ uyuni:
   # 설치한 키클락 url 주소 입력. 형식 : http://<node ip>:<NodePort>/auth
   keycloakUrl: http://192.168.56.11:30090/auth
 ```
-#### 3.4.2.4 uyuni-suite 배포(type=app로 라벨이 붙어 있음.)
+#### 3.4.2.4 kube-config 파일 copy
+```
+cp ~/.kube/config applications/uyuni-suite/uyuni-suite/config
+```
+* config 파일 내 server 항목에 반드시 node ip를 입력
+```
+KQ1VzPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    #nodeip 입력 127.0.0.1 이 아님
+    server: https://127.0.0.1:6443 
+  name: cluster.local
+contexts:
+- context:
+    cluster: cluster.local
+    user: kubernetes-admin
+  name: kubernetes-admin@cluster.local
+current-context: kubernetes-admin@cluster.local
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+```
+#### 3.4.2.5 uyuni-suite 배포(type=app로 라벨이 붙어 있음.)
 ```
 helmfile --environment test -l type=app sync
 ```
