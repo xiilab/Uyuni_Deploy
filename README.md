@@ -282,7 +282,7 @@ helmfile --environment <helmfile.yaml에 정의한 환경변수 이름> -l app=<
 helmfile --environment test -l app=ingress-nginx sync
 ```
 
-##### 4.3.2 모듈 개별로 삭제 명령어
+#### 4.3.2 모듈 개별로 삭제 명령어
 helmfile --environment <helmfile.yaml에 정의한 환경변수 이름> -l app=<app 이름> destroy
 ```
 helmfile --environment xiilab -l app=ingress-nginx destroy
