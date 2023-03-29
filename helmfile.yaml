@@ -2,20 +2,6 @@ environments:
   default:
     values:
     - environments/default/values.yaml
-  develop:
-  production:
-  katech:
-    values:
-    - environments/katech/values.yaml
-  xiilab:
-    values:
-    - environments/xiilab/values.yaml
-  test:
-    values:
-    - environments/test/values.yaml
-  seoultech:
-    values:
-    - environments/seoultech/values.yaml
 
 helmDefaults:
   wait: true
