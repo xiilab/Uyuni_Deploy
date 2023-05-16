@@ -322,6 +322,8 @@ mariadb:
       slow_query_log=0
       slow_query_log_file=/opt/bitnami/mariadb/logs/mysqld.log
       long_query_time=10.0
+      interactive_timeout=1803
+      wait_timeout=1803
 
       [client]
       port=3306
