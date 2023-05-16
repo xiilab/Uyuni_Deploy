@@ -38,4 +38,7 @@ prometheus:
 uyuni:
   nodePort: 30080
   keycloakUrl: http://192.168.56.11:30090/auth
-  
+  frontend:
+    imageTag: 0.4.44-stag  
+  backend:
+    imageTag: 0.4.26-stag

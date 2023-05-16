@@ -28,23 +28,23 @@ uyuni:
     image:
       repository: xiilab/uyuni-suite-frontend
       pullPolicy: IfNotPresent
-      tag: "0.4.44-stag"
+      tag: "{{ .Values.uyuni.frontend.imageTag }}"
 
   core:
     image:
       repository: xiilab/uyuni-manager-core
       pullPolicy: IfNotPresent
-      tag: "0.4.26-stag"
+      tag: "{{ .Values.uyuni.frontend.imageTag }}"
 
   batch:
     image:
       repository: xiilab/uyuni-manager-batch
       pullPolicy: IfNotPresent
-      tag: "0.4.26-stag"
+      tag: "{{ .Values.uyuni.backend.imageTag }}"
 
   noti:
     image:
       repository: xiilab/uyuni-manager-noti
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.4.26-stag"
+      tag: "{{ .Values.uyuni.backend.imageTag }}"
