@@ -36,6 +36,6 @@ prometheus:
   tolerations: []
 
 uyuni:
-  nodePort: 30080
+  nodePort: 40080
   keycloakUrl: http://192.168.56.11:30090/auth
   
