@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mig-config
+data:
+  MigProfile.json: |-
+    {
+      "migProfiles": [
+        {
+          "migProduct": "A100_40GB",
+          "migInfos": [
+            {
+              "migProfile": "1g.5gb",
+              "count": 7
+            },
+            {
+              "migProfile": "2g.10gb",
+              "count": 3
+            },
+            {
+              "migProfile": "3g.20gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.20gb",
+              "count": 1
+            },
+            {
+              "migProfile": "7g.40gb",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "migProduct": "A100_80GB",
+          "migInfos": [
+            {
+              "migProfile": "1g.10gb",
+              "count": 7
+            },
+            {
+              "migProfile": "2g.20gb",
+              "count": 3
+            },
+            {
+              "migProfile": "3g.40gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.40gb",
+              "count": 1
+            },
+            {
+              "migProfile": "7g.80gb",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "migProduct": "H100",
+          "migInfos": [
+            {
+              "migProfile": "1g.10gb",
+              "count": 7
+            },
+            {
+              "migProfile": "2g.20gb",
+              "count": 3
+            },
+            {
+              "migProfile": "3g.40gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.40gb",
+              "count": 1
+            },
+            {
+              "migProfile": "7g.80gb",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "migProduct": "A30",
+          "migInfos": [
+            {
+              "migProfile": "1g.6gb",
+              "count": 4
+            },
+            {
+              "migProfile": "2g.12gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.24gb",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }

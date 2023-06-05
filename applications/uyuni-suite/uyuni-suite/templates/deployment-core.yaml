@@ -81,6 +81,8 @@ spec:
               readOnly: true
             - mountPath: "/root/uyuni"
               name: uyuni-pvc
+            - mountPath: "/root/migProfile"
+              name: mig-profile
       {{- with .Values.uyuni.core.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -94,6 +96,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        - name: mig-profile
+          configMap:
+            name: mig-config
         - name: kube-config
           secret:
             secretName: kube-config
