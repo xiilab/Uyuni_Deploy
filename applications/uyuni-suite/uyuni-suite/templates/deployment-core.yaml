@@ -10,7 +10,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: uyuni-suite-core
+      app: uyuni-manager-core
   template:
     metadata:
       {{- with .Values.uyuni.core.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: uyuni-suite-core
+        app: uyuni-manager-core
     spec:
       {{- with .Values.uyuni.core.imagePullSecrets }}
       imagePullSecrets:
