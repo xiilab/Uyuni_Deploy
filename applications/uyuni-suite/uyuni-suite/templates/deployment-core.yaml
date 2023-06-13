@@ -38,6 +38,8 @@ spec:
           image: "{{ .Values.uyuni.core.image.repository }}:{{ .Values.uyuni.core.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.uyuni.core.image.pullPolicy }}
           env:
+            - name: mig-profile-path
+              value: /root/migProfile/migProfile.json
             - name: SPRING_PROFILES_ACTIVE
               value: dev
             - name: KEYCLOAK_REALM
