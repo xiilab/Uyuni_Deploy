@@ -1,0 +1,118 @@
+validator:
+  repository: {{ .Values.common.repository }}/nvidia/cloud-native
+  image: gpu-operator-validator
+
+operator:
+  repository: {{ .Values.common.repository }}/nvidia
+  image: gpu-operator
+  initContainer:
+    image: cuda
+    repository: {{ .Values.common.repository }}/nvidia
+    version: 11.8.0-base-ubi8
+
+driver:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia
+  image: driver
+  version: "525.60.13"
+  manager:
+    image: k8s-driver-manager
+    repository: nvcr.io/nvidia/cloud-native
+    version: v0.6.0
+
+toolkit:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia/k8s
+  image: container-toolkit
+  version: v1.11.0-ubuntu20.04
+
+devicePlugin:
+  enabled: true
+  repository: nvcr.io/nvidia
+  image: k8s-device-plugin
+  version: v0.13.0-ubi8
+
+toolkit:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia/k8s
+  image: container-toolkit
+  version: v1.11.0-ubuntu20.04
+
+devicePlugin:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia
+  image: k8s-device-plugin
+  version: v0.13.0-ubi8
+
+dcgm:
+  enabled: false
+  repository: {{ .Values.common.repository }}/nvidia/cloud-native
+  image: dcgm
+  version: 3.1.3-1-ubuntu20.04
+
+dcgmExporter:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia/k8s
+  image: dcgm-exporter
+  version: 3.1.3-3.1.2-ubuntu20.04
+
+gfd:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia
+  image: gpu-feature-discovery
+  version: v0.7.0-ubi8
+
+migManager:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia/cloud-native
+  image: k8s-mig-manager
+  version: v0.5.0-ubuntu20.04
+
+nodeStatusExporter:
+  enabled: false
+  repository: {{ .Values.common.repository }}/nvidia/cloud-native
+  image: gpu-operator-validator
+
+gds:
+  enabled: false
+  repository: {{ .Values.common.repository }}/nvidia/cloud-native
+  image: nvidia-fs
+  version: "2.14.13"
+
+vgpuManager:
+  enabled: false
+  repository: ""
+  image: vgpu-manager
+  version: ""
+  driverManager:
+    image: k8s-driver-manager
+    repository: {{ .Values.common.repository }}/nvidia/cloud-native
+    version: v0.6.0
+
+vgpuDeviceManager:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia/cloud-native
+  image: vgpu-device-manager
+  version: "v0.2.0"
+
+vfioManager:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia
+  image: cuda
+  version: 11.7.1-base-ubi8
+  driverManager:
+    image: k8s-driver-manager
+    repository: nvcr.io/nvidia/cloud-native
+    version: v0.6.0
+
+sandboxDevicePlugin:
+  enabled: true
+  repository: {{ .Values.common.repository }}/nvidia
+  image: kubevirt-gpu-device-plugin
+  version: v1.2.1
+
+node-feature-discovery:
+  image:
+    repository: {{ .Values.common.repository }}/nfd/node-feature-discovery
+    # This should be set to 'IfNotPresent' for released version
+    pullPolicy: IfNotPresent
