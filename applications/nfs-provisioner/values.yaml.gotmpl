@@ -1,3 +1,9 @@
+image:
+  repository: {{ .Values.common.repository }}/sig-storage/nfs-subdir-external-provisioner
+  tag: v4.0.2
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+
 nfs:
   server: {{ .Values.nfsprovisioner.nfs.server }}
   path: {{ .Values.nfsprovisioner.nfs.path }}

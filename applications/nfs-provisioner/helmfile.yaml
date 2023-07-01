@@ -1,12 +1,13 @@
-repositories:
-  - name: nfs-subdir-external-provisioner
-    url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+#repositories:
+#  - name: nfs-subdir-external-provisioner
+#    url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
 
 releases:
   - name: nfs-provisioner
     namespace: nfs-provisioner
-    chart: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
-    version: ~4.0.18
+    chart: ./nfs-subdir-external-provisioner
+    #chart: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+    #version: ~4.0.18
     wait: true
     labels:
       app: nfs-provisioner
