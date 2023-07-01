@@ -1,12 +1,12 @@
-repositories:
-  - name: confluentinc
-    url: https://confluentinc.github.io/cp-helm-charts
+#repositories:
+#  - name: confluentinc
+#    url: https://confluentinc.github.io/cp-helm-charts
 
 releases:
   - name: kafka
     namespace: kafka
     #chart: confluentinc/cp-helm-charts
-    chart: cp-helm-charts
+    chart: ./cp-helm-charts
     wait: true
     labels:
       app: kafka
