@@ -1,0 +1,12 @@
+dependencies:
+- name: kube-state-metrics
+  repository: file://charts/kube-state-metrics
+  version: 5.0.0
+- name: prometheus-node-exporter
+  repository: file://charts/prometheus-node-exporter
+  version: 4.14.0
+- name: grafana
+  repository: file://charts/grafana
+  version: 6.51.5
+digest: sha256:1c1d2a560e3c2810e7296817ee23c2a3d42e7dce376dfa3910598ac468fad4e6
+generated: "2023-07-03T11:28:25.728283439Z"

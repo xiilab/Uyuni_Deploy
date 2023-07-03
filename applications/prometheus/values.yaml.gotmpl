@@ -21,6 +21,11 @@ alertmanager:
     - '/etc/alertmanager/config/*.tmpl'
 
   alertmanagerSpec:
+    image:
+      registry: {{ .Values.common.repository }}
+      repository: prometheus/alertmanager
+      tag: v0.25.0
+      sha: ""
     portName: "http-web"
     {{- with .Values.prometheus.nodeSelector }}
     nodeSelector:
@@ -40,6 +45,8 @@ alertmanager:
     pathType: ImplementationSpecific
 
 grafana:
+  image:
+    repository: {{ .Values.common.repository }}/grafana/grafana
   {{- with .Values.prometheus.nodeSelector }}
   nodeSelector:
     {{- toYaml . | nindent 8 }}
@@ -55,6 +62,33 @@ grafana:
       - grafana.{{ .Values.common.ingress.domain }}
     path: /
 
+  testFramework:
+    enabled: true
+    image: {{ .Values.common.repository }}/bats/bats
+    tag: "v1.4.1"
+  downloadDashboardsImage:
+    repository: {{ .Values.common.repository }}/curlimages/curl
+    tag: 7.85.0
+    sha: ""
+    pullPolicy: IfNotPresent
+  initChownData:
+    image:
+      repository: {{ .Values.common.repository }}/busybox
+      tag: "1.31.1"
+      sha: ""
+      pullPolicy: IfNotPresent
+  sidecar:
+    image:
+      repository: {{ .Values.common.repository }}/kiwigrid/k8s-sidecar
+      tag: 1.22.0
+      sha: ""
+  imageRenderer:
+    image:
+      # image-renderer Image repository
+      repository: {{ .Values.common.repository }}/grafana/grafana-image-renderer
+      # image-renderer Image tag
+      tag: latest
+
 prometheusOperator:
   enabled: true  
   {{- with .Values.prometheus.nodeSelector }}
@@ -65,8 +99,29 @@ prometheusOperator:
   tolerations:
     {{- toYaml . | nindent 8 }}
   {{- end }}
+  admissionWebhooks:
+    patch:
+      enabled: true
+      image:
+        registry: {{ .Values.common.repository }}
+        repository: ingress-nginx/kube-webhook-certgen
+        tag: v20221220-controller-v1.5.1-58-g787ea74b6
+  image:
+    registry: {{ .Values.common.repository }}
+    repository: prometheus-operator/prometheus-operator
+  prometheusConfigReloader:
+    image:
+      registry: {{ .Values.common.repository }}
+      repository: prometheus-operator/prometheus-config-reloader
+  thanosImage:
+    registry: {{ .Values.common.repository }}
+    repository: thanos/thanos
+    tag: v0.30.2
 
 kube-state-metrics:
+  image:
+    registry: {{ .Values.common.repository }}
+    repository: kube-state-metrics/kube-state-metrics
   prometheus:
     monitor:
       enabled: true
@@ -80,6 +135,12 @@ kube-state-metrics:
   tolerations:
     {{- toYaml . | nindent 8 }}
   {{- end }}
+  kubeRBACProxy:
+    enabled: false
+    image:
+      registry: {{ .Values.common.repository }}
+      repository: brancz/kube-rbac-proxy
+      tag: v0.14.0
 
 prometheus:
   ingress:
@@ -99,6 +160,11 @@ prometheus:
     tolerations:
       {{- toYaml . | nindent 8 }}
     {{- end }}  
+    image:
+      registry: {{ .Values.common.repository }}
+      repository: prometheus/prometheus
+      tag: v2.42.0
+      sha: ""
     shards: null
     serviceMonitorSelectorNilUsesHelmValues: false
     additionalScrapeConfigs:
@@ -115,3 +181,14 @@ prometheus:
       - source_labels: [__meta_kubernetes_pod_node_name]
         action: replace
         target_label: kubernetes_node
+
+prometheus-node-exporter:
+  image:
+    registry: {{ .Values.common.repository }} 
+    repository: prometheus/node-exporter
+  kubeRBACProxy:
+    enabled: false
+    image:
+      registry: {{ .Values.common.repository }}
+      repository: brancz/kube-rbac-proxy
+      tag: v0.14.0

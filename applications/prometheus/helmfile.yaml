@@ -7,8 +7,9 @@
 releases:
 - name: prometheus
   namespace: prometheus
-  chart: prometheus-community/kube-prometheus-stack
-  version: ~45.7.1
+  #  chart: prometheus-community/kube-prometheus-stack
+  #version: ~45.7.1
+  chart: ./kube-prometheus-stack  
   labels:
     app: prometheus
     type: base
