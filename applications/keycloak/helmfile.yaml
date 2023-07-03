@@ -13,8 +13,9 @@ releases:
     
 - name: keycloak
   namespace: keycloak
-  chart: codecentric/keycloak
-  version: ~18.4.0
+  chart: ./keycloak
+  #chart: codecentric/keycloak
+  #version: ~18.4.0
   wait: true
   labels:
     app: keycloak

@@ -1,3 +1,7 @@
+image:
+  repository: {{ .Values.common.repository }}/keycloak/keycloak
+  tag: ""
+
 extraEnv: |
   - name: KEYCLOAK_USER
     value: "admin"
@@ -42,7 +46,7 @@ ingress:
 
 extraInitContainers: | 
   - name: init-customtheme
-    image: jacobcarlborg/docker-alpine-wget
+    image: {{ .Values.common.repository }}/jacobcarlborg/docker-alpine-wget
     command:
       - sh
     args:
@@ -52,6 +56,7 @@ extraInitContainers: |
     volumeMounts:
       - name: theme
         mountPath: /theme
+    
 
 extraVolumeMounts: |
   - name: theme
@@ -76,7 +81,18 @@ tolerations:
   {{- toYaml . | nindent 8 }}
 {{- end }}
 
+pgchecker:
+  image:
+    # Docker image used to check Postgresql readiness at startup
+    repository: {{ .Values.common.repository }}/busybox
+    # Image tag for the pgchecker image
+    tag: 1.32
+
 postgresql:
+  image:
+    registry: {{ .Values.common.repository }} 
+    repository: bitnami/postgresql
+    tag: 11.14.0-debian-10-r28
   primary:
     {{- with .Values.keycloak.nodeSelector }}
     nodeSelector:
