@@ -26,6 +26,13 @@ controller:
         tag: v20230312-helm-chart-4.5.2-28-g66a760794
         digest: sha256:22bf4e148e63d2aabb047281aa60f1a5c1ddfce73361907353e660330aaf441a
         #digest: sha256:01d181618f270f2a96c04006f33b2699ad3ccb02da48d0f89b22abce084b292f
+  admissionWebhooks:
+    patch:
+      image:
+        registry: {{ .Values.common.repository }}
+        image: ingress-nginx/kube-webhook-certgen
+        tag: v20230312-helm-chart-4.5.2-28-g66a760794
+        digest: sha256:22bf4e148e63d2aabb047281aa60f1a5c1ddfce73361907353e660330aaf441a
   service:
     type: {{ .Values.ingressnginx.servicetype }}
     loadBalancerIP: {{ .Values.ingressnginx.loadBalancerIP }}

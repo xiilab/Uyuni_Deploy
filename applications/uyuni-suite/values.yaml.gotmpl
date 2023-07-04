@@ -26,25 +26,32 @@ uyuni:
 
   frontend:
     image:
-      repository: xiilab/uyuni-suite-frontend
+      repository: {{ .Values.common.repository }}/xiilab/uyuni-suite-frontend
       pullPolicy: IfNotPresent
       tag: "0.4.70-stag"
 
   core:
     image:
-      repository: xiilab/uyuni-manager-core
+      repository: {{ .Values.common.repository }}/xiilab/uyuni-manager-core
       pullPolicy: IfNotPresent
       tag: "0.4.46-stag"
 
   batch:
     image:
-      repository: xiilab/uyuni-manager-batch
+      repository: {{ .Values.common.repository }}/xiilab/uyuni-manager-batch
       pullPolicy: IfNotPresent
-      tag: "0.4.41-stag"
+      tag: "0.4.46-stag"
 
   noti:
     image:
-      repository: xiilab/uyuni-manager-noti
+      repository: {{ .Values.common.repository }}/xiilab/uyuni-manager-noti
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.4.41-stag"
+      tag: "0.4.46-stag"
+
+
+mariadb:
+  image:
+    registry: {{ .Values.common.repository }}
+    repository: bitnami/mariadb
+    tag: 10.6.10-debian-11-r6

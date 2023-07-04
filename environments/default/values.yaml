@@ -1,7 +1,6 @@
 common:
   ingress:
     domain: "default.com"
-  airgapServerIp: 192.168.10.55
   repository: 192.168.10.55:5001
 
 ingressnginx:
@@ -28,7 +27,7 @@ kafka:
 
 keycloak:
   keycloakAdminPassword: keycloak12345
-  themeUrl: http://192.168.10.55:5001/theme/uyuni-suite-keycloak-theme-v1.2.6.2.jar
+  themeUrl: http://192.168.10.55/theme/uyuni-suite-keycloak-theme-v1.2.6.2.jar
 
   nodePort: 30090
   nodeSelector: {} 
