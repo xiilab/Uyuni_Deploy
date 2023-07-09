@@ -1,0 +1,41 @@
+common:
+  ingress:
+    domain: "default.com"
+
+ingressnginx:
+  servicetype: NodePort
+  loadBalancerIP: 192.168.1.210
+  nodeports:
+    http: 32080
+    https: 32443
+
+nfsprovisioner:
+  nfs:
+    server: "192.168.56.13"
+    path: "/kube_storage"
+  nodeSelector: {}
+  tolerations: []
+
+kafka:
+  nodeSelector: {}
+  tolerations: []
+  zookeeper:
+    servers: 1
+  kafka:
+    servers: 1
+
+keycloak:
+  keycloakAdminPassword: keycloak12345
+  themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6.6/uyuni-suite-keycloak-theme-v1.2.6.6.jar
+  nodePort: 30090
+  nodeSelector: {} 
+  tolerations: []
+
+prometheus:
+  nodeSelector: {}
+  tolerations: []
+
+uyuni:
+  nodePort: 30080
+  keycloakUrl: http://192.168.56.11:30090/auth
+  
