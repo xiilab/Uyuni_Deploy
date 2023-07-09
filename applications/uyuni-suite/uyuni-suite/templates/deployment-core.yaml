@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ include "uyuni-suite.fullname" . }}-core"
+  name: uyuni-manager-core
   labels:
     {{- include "uyuni-suite.labels" . | nindent 4 }}
 spec:
@@ -10,7 +10,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: uyuni-suite-core
+      app: uyuni-manager-core
   template:
     metadata:
       {{- with .Values.uyuni.core.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: uyuni-suite-core
+        app: uyuni-manager-core
     spec:
       {{- with .Values.uyuni.core.imagePullSecrets }}
       imagePullSecrets:
@@ -38,6 +38,8 @@ spec:
           image: "{{ .Values.uyuni.core.image.repository }}:{{ .Values.uyuni.core.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.uyuni.core.image.pullPolicy }}
           env:
+            - name: mig-profile-path
+              value: /root/migProfile/migProfile.json
             - name: SPRING_PROFILES_ACTIVE
               value: dev
             - name: KEYCLOAK_REALM
@@ -81,6 +83,8 @@ spec:
               readOnly: true
             - mountPath: "/root/uyuni"
               name: uyuni-pvc
+            - mountPath: "/root/migProfile"
+              name: mig-profile
       {{- with .Values.uyuni.core.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -94,6 +98,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        - name: mig-profile
+          configMap:
+            name: mig-config
         - name: kube-config
           secret:
             secretName: kube-config
