@@ -22,7 +22,7 @@ alertmanager:
 
   alertmanagerSpec:
     image:
-      registry: {{ .Values.common.repository }}
+      registry: {{ .Values.airgap.repository }}
       repository: prometheus/alertmanager
       tag: v0.25.0
       sha: ""
@@ -46,7 +46,7 @@ alertmanager:
 
 grafana:
   image:
-    repository: {{ .Values.common.repository }}/grafana/grafana
+    repository: {{ .Values.airgap.repository }}/grafana/grafana
   {{- with .Values.prometheus.nodeSelector }}
   nodeSelector:
     {{- toYaml . | nindent 8 }}
@@ -64,28 +64,28 @@ grafana:
 
   testFramework:
     enabled: true
-    image: {{ .Values.common.repository }}/bats/bats
+    image: {{ .Values.airgap.repository }}/bats/bats
     tag: "v1.4.1"
   downloadDashboardsImage:
-    repository: {{ .Values.common.repository }}/curlimages/curl
+    repository: {{ .Values.airgap.repository }}/curlimages/curl
     tag: 7.85.0
     sha: ""
     pullPolicy: IfNotPresent
   initChownData:
     image:
-      repository: {{ .Values.common.repository }}/busybox
+      repository: {{ .Values.airgap.repository }}/busybox
       tag: "1.31.1"
       sha: ""
       pullPolicy: IfNotPresent
   sidecar:
     image:
-      repository: {{ .Values.common.repository }}/kiwigrid/k8s-sidecar
+      repository: {{ .Values.airgap.repository }}/kiwigrid/k8s-sidecar
       tag: 1.22.0
       sha: ""
   imageRenderer:
     image:
       # image-renderer Image repository
-      repository: {{ .Values.common.repository }}/grafana/grafana-image-renderer
+      repository: {{ .Values.airgap.repository }}/grafana/grafana-image-renderer
       # image-renderer Image tag
       tag: latest
 
@@ -103,24 +103,24 @@ prometheusOperator:
     patch:
       enabled: true
       image:
-        registry: {{ .Values.common.repository }}
+        registry: {{ .Values.airgap.repository }}
         repository: ingress-nginx/kube-webhook-certgen
         tag: v20221220-controller-v1.5.1-58-g787ea74b6
   image:
-    registry: {{ .Values.common.repository }}
+    registry: {{ .Values.airgap.repository }}
     repository: prometheus-operator/prometheus-operator
   prometheusConfigReloader:
     image:
-      registry: {{ .Values.common.repository }}
+      registry: {{ .Values.airgap.repository }}
       repository: prometheus-operator/prometheus-config-reloader
   thanosImage:
-    registry: {{ .Values.common.repository }}
+    registry: {{ .Values.airgap.repository }}
     repository: thanos/thanos
     tag: v0.30.2
 
 kube-state-metrics:
   image:
-    registry: {{ .Values.common.repository }}
+    registry: {{ .Values.airgap.repository }}
     repository: kube-state-metrics/kube-state-metrics
   prometheus:
     monitor:
@@ -138,7 +138,7 @@ kube-state-metrics:
   kubeRBACProxy:
     enabled: false
     image:
-      registry: {{ .Values.common.repository }}
+      registry: {{ .Values.airgap.repository }}
       repository: brancz/kube-rbac-proxy
       tag: v0.14.0
 
@@ -161,7 +161,7 @@ prometheus:
       {{- toYaml . | nindent 8 }}
     {{- end }}  
     image:
-      registry: {{ .Values.common.repository }}
+      registry: {{ .Values.airgap.repository }}
       repository: prometheus/prometheus
       tag: v2.42.0
       sha: ""
@@ -184,11 +184,11 @@ prometheus:
 
 prometheus-node-exporter:
   image:
-    registry: {{ .Values.common.repository }} 
+    registry: {{ .Values.airgap.repository }} 
     repository: prometheus/node-exporter
   kubeRBACProxy:
     enabled: false
     image:
-      registry: {{ .Values.common.repository }}
+      registry: {{ .Values.airgap.repository }}
       repository: brancz/kube-rbac-proxy
       tag: v0.14.0

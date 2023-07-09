@@ -1,5 +1,5 @@
 image:
-  repository: {{ .Values.common.repository }}/keycloak/keycloak
+  repository: {{ .Values.airgap.repository }}/keycloak/keycloak
   tag: ""
 
 extraEnv: |
@@ -46,7 +46,7 @@ ingress:
 
 extraInitContainers: | 
   - name: init-customtheme
-    image: {{ .Values.common.repository }}/jacobcarlborg/docker-alpine-wget
+    image: {{ .Values.airgap.repository }}/jacobcarlborg/docker-alpine-wget
     command:
       - sh
     args:
@@ -84,13 +84,13 @@ tolerations:
 pgchecker:
   image:
     # Docker image used to check Postgresql readiness at startup
-    repository: {{ .Values.common.repository }}/busybox
+    repository: {{ .Values.airgap.repository }}/busybox
     # Image tag for the pgchecker image
     tag: 1.32
 
 postgresql:
   image:
-    registry: {{ .Values.common.repository }} 
+    registry: {{ .Values.airgap.repository }} 
     repository: bitnami/postgresql
     tag: 11.14.0-debian-10-r28
   primary:

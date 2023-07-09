@@ -1,6 +1,6 @@
 cp-zookeeper:
   enabled: true
-  image: {{ .Values.common.repository }}/confluentinc/cp-zookeeper
+  image: {{ .Values.airgap.repository }}/confluentinc/cp-zookeeper
   imageTag: 6.1.0
   servers: {{ .Values.kafka.zookeeper.servers }}
   {{- with .Values.kafka.nodeSelector }}
@@ -16,7 +16,7 @@ cp-zookeeper:
       enabled: false
 cp-kafka:
   enabled: true
-  image: {{ .Values.common.repository }}/confluentinc/cp-enterprise-kafka
+  image: {{ .Values.airgap.repository }}/confluentinc/cp-enterprise-kafka
   imageTag: 6.1.0
   brokers: {{ .Values.kafka.kafka.servers }}
   configurationOverrides:

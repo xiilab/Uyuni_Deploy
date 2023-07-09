@@ -2,7 +2,7 @@ controller:
   image:
     ## Keep false as default for now!
     chroot: false
-    registry: {{ .Values.common.repository }}
+    registry: {{ .Values.airgap.repository }}
     image: ingress-nginx/controller
     ## for backwards compatibility consider setting the full image url via the repository value below
     ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
@@ -17,11 +17,11 @@ controller:
 
   opentelemetry:
     enabled: false
-    image: {{ .Values.common.repository }}/ingress-nginx/opentelemetry:v20230312-helm-chart-4.5.2-28-g66a760794
+    image: {{ .Values.airgap.repository }}/ingress-nginx/opentelemetry:v20230312-helm-chart-4.5.2-28-g66a760794
     patch:
       enabled: true
       image:
-        registry: {{ .Values.common.repository }}
+        registry: {{ .Values.airgap.repository }}
         image: ingress-nginx/kube-webhook-certgen
         tag: v20230312-helm-chart-4.5.2-28-g66a760794
         digest: sha256:22bf4e148e63d2aabb047281aa60f1a5c1ddfce73361907353e660330aaf441a
@@ -29,7 +29,7 @@ controller:
   admissionWebhooks:
     patch:
       image:
-        registry: {{ .Values.common.repository }}
+        registry: {{ .Values.airgap.repository }}
         image: ingress-nginx/kube-webhook-certgen
         tag: v20230312-helm-chart-4.5.2-28-g66a760794
         digest: sha256:22bf4e148e63d2aabb047281aa60f1a5c1ddfce73361907353e660330aaf441a
@@ -47,5 +47,5 @@ defaultBackend:
   enabled: false
   name: defaultbackend
   image:
-    registry: {{ .Values.common.repository }}
+    registry: {{ .Values.airgap.repository }}
     image: defaultbackend-amd64
