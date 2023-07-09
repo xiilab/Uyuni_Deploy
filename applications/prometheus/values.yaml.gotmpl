@@ -16,7 +16,7 @@ alertmanager:
     - name: 'null'
     - name: 'webhook'
       webhook_configs:
-      - url: 'http://alert-check.default.svc:5000/'
+      - url: http://uyuni-manager-core:8080/api/v1/manager/alert
     templates:
     - '/etc/alertmanager/config/*.tmpl'
 
@@ -115,3 +115,11 @@ prometheus:
       - source_labels: [__meta_kubernetes_pod_node_name]
         action: replace
         target_label: kubernetes_node
+    retention: 1y
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
