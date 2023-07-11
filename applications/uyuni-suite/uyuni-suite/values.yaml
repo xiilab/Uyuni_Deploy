@@ -65,7 +65,7 @@ uyuni:
       repository: xiilab/uyuni-suite-frontend
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.5.2-stag"
+      tag: "0.4.57-stag"
 
     imagePullSecrets: []
     podAnnotations: {}
@@ -118,7 +118,7 @@ uyuni:
       repository: xiilab/uyuni-manager-core
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.5.3-stag"
+      tag: "0.4.38-stag"
 
     imagePullSecrets: []
     podAnnotations: {}
@@ -177,7 +177,7 @@ uyuni:
       repository: xiilab/uyuni-manager-batch
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.5.3-stag"
+      tag: "0.4.38-stag"
 
     imagePullSecrets: []
     podAnnotations: {}
@@ -232,7 +232,7 @@ uyuni:
       repository: xiilab/uyuni-manager-noti
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.5.3-stag"
+      tag: "0.4.38-stag"
 
     imagePullSecrets: []
     podAnnotations: {}
