@@ -4,7 +4,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: mariadb
-  namespace: "release-0.4"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mariadb
-  namespace: "release-0.4"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -34,7 +34,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: kube-config
-  namespace: release-0.4
+  namespace: release-4
 type: Opaque
 data:
   config: |-
@@ -45,7 +45,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mariadb
-  namespace: "release-0.4"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -90,7 +90,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: uyuni-suite-frontend-config
-  namespace: release-0.4
+  namespace: release-4
 data:
   nginx.conf: |-
     upstream uyuni-manager-core {
@@ -144,7 +144,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mig-config
-  namespace: release-0.4
+  namespace: release-4
 data:
   migProfile.json: |-
     {
@@ -249,7 +249,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: "uyuni-pvc"
-  namespace: release-0.4
+  namespace: release-4
   annotations:
     helm.sh/resource-policy: keep
   labels:
@@ -269,7 +269,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: uyuni-role
-  namespace: release-0.4
+  namespace: release-4
 rules:
   - apiGroups: ["*"]
     resources: ["jobs", "statefulsets", "services", "daemonsets", "pods", "configmaps", "configmaps", "nodes", "ingresses"]
@@ -280,7 +280,7 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: uyuni-role-binding
-  namespace: release-0.4
+  namespace: release-4
 subjects:
   - kind: ServiceAccount
     name: default
@@ -294,7 +294,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mariadb
-  namespace: "release-0.4"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -321,7 +321,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "uyuni-suite-batch"
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -342,7 +342,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "uyuni-suite-core"
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -363,7 +363,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "uyuni-suite-frontend"
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -385,7 +385,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "uyuni-suite-noti"
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -406,7 +406,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "uyuni-suite-batch"
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -435,7 +435,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: dev
             - name: K8S_NAMESPACE
-              value: "release-0.4"
+              value: "release-4"
             - name: KEYCLOAK_REALM
               value: uyuni
             - name: KEYCLOAK_AUTHSERVERURL
@@ -468,7 +468,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: uyuni-manager-core
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -507,7 +507,7 @@ spec:
             - name: ADMIN_PASSWORD
               value: "keycloak12345"
             - name: K8S_NAMESPACE
-              value: "release-0.4"
+              value: "release-4"
             - name: UYUNIHOST
               value: "uyuni-suite.xiilab.com"
             - name: ADMIN_INIT-PASSWORD
@@ -556,7 +556,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "uyuni-suite-frontend"
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -615,7 +615,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "uyuni-suite-noti"
-  namespace: release-0.4
+  namespace: release-4
   labels:
     helm.sh/chart: uyuni-suite-0.1.0
     app.kubernetes.io/name: uyuni-suite
@@ -671,7 +671,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mariadb
-  namespace: "release-0.4"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -692,7 +692,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configuration: f10ab96d228222f2bca0ea0331d9c3d75d46a591038388c80db4cfb8e388811b
+        checksum/configuration: 5ff2c6662a93f590ede6b5fc3b07b0e0538fcea29d9ef5c09438e0117bc203aa
       labels:
         app.kubernetes.io/name: mariadb
         helm.sh/chart: mariadb-11.4.5
