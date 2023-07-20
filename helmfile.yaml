@@ -5,6 +5,13 @@ environments:
   kaist:
     values:
     - environments/kaist/values.yaml
+  release-0.4:
+    values:
+    - environments/stage/release-0.4.yaml
+  release-0.5:
+    values:
+    - environments/stage/release-0.5.yaml
+   
 
 helmDefaults:
   wait: true
