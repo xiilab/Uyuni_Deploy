@@ -3,6 +3,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: "{{ include "uyuni-suite.fullname" . }}-noti"
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "uyuni-suite.labels" . | nindent 4 }}
 spec:
