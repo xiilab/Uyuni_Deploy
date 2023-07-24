@@ -31,6 +31,11 @@ uyuni:
       tag: "{{ .Values.uyuni.frontend.imageTag }}"
 
   core:
+    env:
+      - name: ADMIN_INIT-PASSWORD
+        value: {{ .Values.uyuni.adminPassword }}
+      - name: SLURM_AGENT_URL
+        value: {{ .Values.uyuni.slurmUrl }}
     image:
       repository: "{{ .Values.uyuni.core.repository }}"
       pullPolicy: IfNotPresent
