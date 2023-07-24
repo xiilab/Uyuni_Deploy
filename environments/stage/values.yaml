@@ -40,22 +40,6 @@ uyuni:
   adminPassword: uyuni
   keycloakUrl: http://192.168.1.235:30051/auth
   
-  frontend:
-    repository: xiilab/uyuni-suite-frontend
-    imageTag: 0.5.5-stag
-
-  core:
-    repository: xiilab/uyuni-manager-core
-    imageTag: 0.5.4-stag
-
-  batch:
-    repository: xiilab/uyuni-manager-batch
-    imageTag: 0.5.4-stag
-
-  noti:
-    repository: xiilab/uyuni-manager-noti
-    imageTag: 0.5.4-stag
-
 slurm:
   enabled: true
   slurmUrl: http://192.168.1.46:8082
