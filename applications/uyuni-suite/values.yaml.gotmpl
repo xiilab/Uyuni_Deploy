@@ -28,26 +28,26 @@ uyuni:
     image:
       repository: {{ .Values.airgap.repository }}/xiilab/uyuni-suite-frontend
       pullPolicy: IfNotPresent
-      tag: "0.4.70-stag"
+      tag: "0.4.84-stag"
 
   core:
     image:
       repository: {{ .Values.airgap.repository }}/xiilab/uyuni-manager-core
       pullPolicy: IfNotPresent
-      tag: "0.4.46-stag"
+      tag: "0.4.66-stag"
 
   batch:
     image:
       repository: {{ .Values.airgap.repository }}/xiilab/uyuni-manager-batch
       pullPolicy: IfNotPresent
-      tag: "0.4.46-stag"
+      tag: "0.4.66-stag"
 
   noti:
     image:
       repository: {{ .Values.airgap.repository }}/xiilab/uyuni-manager-noti
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.4.46-stag"
+      tag: "0.4.66-stag"
 
 
 mariadb:
