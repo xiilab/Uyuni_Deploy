@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: "uyuni-pvc"
+  namespace: {{ .Release.Namespace }}
   annotations:
   {{- range $key, $value := .Values.uyuni.common.persistence.annotations }}
     {{ $key }}: {{ $value | quote }}

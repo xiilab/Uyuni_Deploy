@@ -6,6 +6,7 @@ uyuni:
     nameOverride: ""
     fullnameOverride: ""
 
+    kubeConfigFilename: ""
     serviceAccount:
       # Specifies whether a service account should be created
       create: false
@@ -141,8 +142,6 @@ uyuni:
     ##    value: "Europe/Paris"
     ##
     env:
-      - name: ADMIN_INIT-PASSWORD
-        value: "ideafactory"
       - name: KEYCLOAK_SSL-REQUIRED
         value: none
 

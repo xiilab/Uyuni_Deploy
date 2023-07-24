@@ -26,25 +26,34 @@ uyuni:
 
   frontend:
     image:
-      repository: xiilab/uyuni-suite-frontend
+      repository: "xiilab/uyuni-suite-frontend"
       pullPolicy: IfNotPresent
-      tag: "0.5.2-stag"
+      tag: "0.5.4-stag"
 
   core:
+    env:
+    {{- if .Values.uyuni.adminPassword }}
+    - name: ADMIN_INIT-PASSWORD
+      value: {{ .Values.uyuni.adminPassword | default "uyuni" }}
+    {{- end }}
+    {{- if .Values.slurm.enabled }}
+    - name: SLURM_AGENT_URL
+      value: {{ .Values.slurm.slurmUrl }}
+    {{- end }}
     image:
-      repository: xiilab/uyuni-manager-core
+      repository: "xiilab/uyuni-manager-core"
       pullPolicy: IfNotPresent
-      tag: "0.5.3-stag"
+      tag: "0.5.5-stag"
 
   batch:
     image:
-      repository: xiilab/uyuni-manager-batch
+      repository: "xiilab/uyuni-manager-batch"
       pullPolicy: IfNotPresent
-      tag: "0.5.3-stag"
+      tag: "0.5.5-stag"
 
   noti:
     image:
-      repository: xiilab/uyuni-manager-noti
+      repository: "xiilab/uyuni-manager-noti"
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.5.3-stag"
+      tag: "0.5.5-stag"

@@ -2,9 +2,13 @@ environments:
   default:
     values:
     - environments/default/values.yaml
+  stage:
+    values:
+    - environments/stage/values.yaml
   kaist:
     values:
     - environments/kaist/values.yaml
+   
 
 helmDefaults:
   wait: true
