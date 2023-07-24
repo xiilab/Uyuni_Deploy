@@ -38,7 +38,6 @@ prometheus:
 uyuni:
   nodePort: 30005
   adminPassword: uyuni
-  slurmUrl: http://192.168.1.46:8082 
   keycloakUrl: http://192.168.1.235:30051/auth
   
   frontend:
@@ -56,3 +55,7 @@ uyuni:
   noti:
     repository: xiilab/uyuni-manager-noti
     imageTag: 0.5.4-stag
+
+slurm:
+  enabled: true
+  slurmUrl: http://192.168.1.46:8082

@@ -32,10 +32,14 @@ uyuni:
 
   core:
     env:
-      - name: ADMIN_INIT-PASSWORD
-        value: {{ .Values.uyuni.adminPassword }}
-      - name: SLURM_AGENT_URL
-        value: {{ .Values.uyuni.slurmUrl }}
+    {{- if .Values.uyuni.adminPassword }}
+    - name: ADMIN_INIT-PASSWORD
+      value: {{ .Values.uyuni.adminPassword | default "uyuni" }}
+    {{- end }}
+    {{- if .Values.slurm.enabled }}
+    - name: SLURM_AGENT_URL
+      value: {{ .Values.slurm.slurmUrl }}
+    {{- end }}
     image:
       repository: "{{ .Values.uyuni.core.repository }}"
       pullPolicy: IfNotPresent
