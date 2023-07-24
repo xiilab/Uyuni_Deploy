@@ -1,0 +1,809 @@
+---
+# Source: uyuni-suite/charts/mariadb/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mariadb
+  namespace: "release-5"
+  labels:
+    app.kubernetes.io/name: mariadb
+    helm.sh/chart: mariadb-11.4.5
+    app.kubernetes.io/instance: uyuni-suite
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+automountServiceAccountToken: false
+---
+# Source: uyuni-suite/charts/mariadb/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb
+  namespace: "release-5"
+  labels:
+    app.kubernetes.io/name: mariadb
+    helm.sh/chart: mariadb-11.4.5
+    app.kubernetes.io/instance: uyuni-suite
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  mariadb-root-password: "cm9vdA=="
+  mariadb-password: "dXl1bmlQYXNzd29yZDMj"
+---
+# Source: uyuni-suite/templates/kube-config-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kube-config
+  namespace: release-5
+type: Opaque
+data:
+  config: |-
+      YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eS1kYXRhOiBMUzB0TFMxQ1JVZEpUaUJEUlZKVVNVWkpRMEZVUlMwdExTMHRDazFKU1VNdmFrTkRRV1ZoWjBGM1NVSkJaMGxDUVVSQlRrSm5hM0ZvYTJsSE9YY3dRa0ZSYzBaQlJFRldUVkpOZDBWUldVUldVVkZFUlhkd2NtUlhTbXdLWTIwMWJHUkhWbnBOUWpSWVJGUkplVTFVUVhoT1JFRTBUV3BuZWsxV2IxaEVWRTE1VFZSQmVFMVVRVFJOYW1kNlRWWnZkMFpVUlZSTlFrVkhRVEZWUlFwQmVFMUxZVE5XYVZwWVNuVmFXRkpzWTNwRFEwRlRTWGRFVVZsS1MyOWFTV2gyWTA1QlVVVkNRbEZCUkdkblJWQkJSRU5EUVZGdlEyZG5SVUpCU3pWMUNpOWtjVFpyZW1GRWJsQTVRMnhDWVdVcmJrRXlPRVJNVVZZNEx6WTRWRnBFWW1wdE4yb3ZTSEpTVXpnd1NXaEZTVGh4VW5ab1owRnVRVVpyT1dVeVpYZ0thbWRYVGt4SU1tOUVWVTl5UTFkbGFHZGpXVFpoU0UxT2JVMHdWalJpZEZsNGJXaHZWVlpYY3pkdlFVdGtPVzl4UXprME5FZE1iRWhQTWs1VlRsaExUQXBrVnpoaGMzcE5aRWRUVGpaMlQzWlpLMmc1VlZWcVdXWnZNaTkyVURWQllsWmFSM0UzZVZWVFozQkpOVGx0VTFocFVUWnVVazVKZURCTk9DOTJPRlE0Q2tOTE1GSkVXVTUzV0ZaQlVtRjJUR2hWVnpaTllYSnVVRFI2VUhCMlJYUkRRbEp2T1hWeU1UbHRTRkZJZFVkSlVtODFhMUpKZDNZM1QzZGFObHByUm5nS2FFTktOblpaVFZaRmEzWm1NR1o0VW5BNVpuWkVWV2s1U2tkS1NrWnZTRkJZZERZeE5uRkdibEZOWkRsaFNsUjNZVTVUY0RGcVRVTXJiVEZzVFdaNFVBcEdTV1ZhZG5SS2NtZHBSR05LVFV3d2NIaHpRMEYzUlVGQllVNWFUVVpqZDBSbldVUldVakJRUVZGSUwwSkJVVVJCWjB0clRVRTRSMEV4VldSRmQwVkNDaTkzVVVaTlFVMUNRV1k0ZDBoUldVUldVakJQUWtKWlJVWk9ka3RFVlVsTVVHcEJTa3N4TVhWeFNXTnpibEJVYlVwUGFFRk5RbFZIUVRGVlpFVlJVVThLVFVGNVEwTnRkREZaYlZaNVltMVdNRnBZVFhkRVVWbEtTMjlhU1doMlkwNUJVVVZNUWxGQlJHZG5SVUpCUmtwd2JFUm9ibEZUVTBVeFRXOTVRemhHWndwVk1uTTRhVEpDZHpsUFlrdFhhMWROUTNjemFsTlhNVU5CVG5oMlZtZFZiVlYxY0dKM1preERibEkzZG1keVFXRkVOeTlsVXpNNVNqQkxTa3cxUmpKMUNqbHFiSFJ0VUZKdVFrTmtXSFZPVERVM2Vqa3pNREFyVUU5MVZXTXpWVVZRYWtWbVVUQlBSRmwyWldOeWREVnJiRWRZVGpGMk1GZzFlV04zZEd4U1psZ0tPR2x1WlhoQmNHd3hTRmM0YWtreFFXazVla3M0WjB4RFFrdHNlVzFKTmxaTVFubzFaSFZYTTI1RmFIZElXVzVFYlZwTVltbFVTMFkxUmpWaU1tSlRkUXBpZVhkaVluQkRabUZoVEdOR2JVNHpkVUZUZFZGemNrNXhSVlJOZVdsQ2JqRTFlV05xV1RCc1MxTmpOVmwxTTI5TVZ6WnRhbE5DZG0xVGJrNUtZV2Q2Q2tvcmFHeDFjVzluUW1KcVlUZHRjRnBaWkVWdFUzaFlTRk5zVEVZM1NXVktXalpaYTJkVlZsYzBkbFZ5TlZGNmF6RkZWWFJNV0ZsNFpURXpURWxEWm0wS1FteHZQUW90TFMwdExVVk9SQ0JEUlZKVVNVWkpRMEZVUlMwdExTMHRDZz09CiAgICBzZXJ2ZXI6IGh0dHBzOi8vMTkyLjE2OC4xLjIzNTo2NDQzCiAgbmFtZTogY2x1c3Rlci5sb2NhbAotIGNsdXN0ZXI6CiAgICBjZXJ0aWZpY2F0ZS1hdXRob3JpdHktZGF0YTogTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVTXZha05EUVdWaFowRjNTVUpCWjBsQ1FVUkJUa0puYTNGb2EybEhPWGN3UWtGUmMwWkJSRUZXVFZKTmQwVlJXVVJXVVZGRVJYZHdjbVJYU213S1kyMDFiR1JIVm5wTlFqUllSRlJKZVUxRWEzbE5la0V3VFhwWmVVMUdiMWhFVkUxNVRVUnJlVTFFUVRCTmVsbDVUVVp2ZDBaVVJWUk5Ra1ZIUVRGVlJRcEJlRTFMWVROV2FWcFlTblZhV0ZKc1kzcERRMEZUU1hkRVVWbEtTMjlhU1doMlkwNUJVVVZDUWxGQlJHZG5SVkJCUkVORFFWRnZRMmRuUlVKQlRIUm1DalJ2VFVGclJVZE5RbXhrSzNWblZsRnBWR2RNTlUxSVRraHFVR1p5UWt4TVUybGpVa2h3UlU5WmNUZE1WbTFaWmpOTVVGb3pjMjQzTVZBNFltMWpWV1VLVW5SYVJXSTJWMDFFTXk4d1IyVTVSa0ZsTmtGME9HWkxNWGgxZFROVmRUVmtSVUZPYW5GNWFVdFpMM2N6ZURCdlpubFBaMmw2ZUhWdFFrMUdTR2R6S3dwcWJIY3dZV1Y1ZUVjclNXSlNTRXR4ZDNKSFVHWlZZMW8xSzJWWFJTczNaRzlQTVV0QldWcGxTREU1TkVKRlFUWlFRM2xJYlRGVVVtSlhTMms0Um1kVENqaFZUelpPWW5OaFVXVnVTRGw0VWl0S09HVnNMMWhTVGpsUVMwMXpiRFZ3YURSbGNuTlRaRXc0VURORVlrSktTSHA0TTNGQmRVNWplVUZEUjBaQ1p6Z0tNbWxxYW5jNU5IVndhemt6V25FMUwydExUVk5KZDFsc2JVOVhZVzFGYWt4SFNrVlhhV3QzTURRckx6WXljbk5KUTA5WGFFZHBja2xLUnpkWVNXSjFjd3BtVFZGMlZYQmpSMGR5VWpFeGRIQlRhbGxqUTBGM1JVRkJZVTVhVFVaamQwUm5XVVJXVWpCUVFWRklMMEpCVVVSQlowdHJUVUU0UjBFeFZXUkZkMFZDQ2k5M1VVWk5RVTFDUVdZNGQwaFJXVVJXVWpCUFFrSlpSVVpMWW5CUWNWcFdjVXRDVUhBMVdpdE5UM2RpUjBGV1EyUmpVbFJOUWxWSFFURlZaRVZSVVU4S1RVRjVRME50ZERGWmJWWjVZbTFXTUZwWVRYZEVVVmxLUzI5YVNXaDJZMDVCVVVWTVFsRkJSR2RuUlVKQlIzTXJSVlozUkVZeFZDOVVhR1I1UkZSWVl3cHNNWFZ2V1VkTFdXRmhSSHBDU2t4dVJVUldhemN2YUVwdlJYbFNjVzVFTm1Fdk5FUXpkSFJtU0dFd1lWaE9ieXN5T1VveVR6bFdaMGx0TTIxTWJubENDbkk0V1VrMmVYWTViVE5NZW5GS1JGQkthamhTSzIxMlJGZHZjRVpDWVhkaVJtOHhkbWQ1VUV4VGJtbEpSRUZaUWxkYVVqZFpjQ3RVYUcwNU5sQndlRkVLYlcxdVNtNHZObUZJUmxsNWVXaDRhMDg0ZFc1cFEyNXVTMk5GU1d0V1RrTmFlR3RJU0c1cVQwODVXRlpTUlRWMWNWUkROa3RLWVdkVFNtaE5TbTVpVkFwUGIycHhLMkozU21sdlZIWkdhbFZ5VVhKcmFHWkdjRnBMUmt0NVpXZG5NakZhYkZSTGF6QXdjUzkxV25KVVFWQmthMmx5YzNvMk9UZ3JhR05QUVdaaENtaE5hbkExZUU1TVlraE1hRmg2UTJwYU5tcHlOMkp3VnpkcFpYRjZSR3BYUmk5NmNUbENWSFJYYzJ4b2RUbEhWV2x1Wm0xTkwzTkpjSEJPVUd0M2NWUUtRMGhqUFFvdExTMHRMVVZPUkNCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2c9PQogICAgc2VydmVyOiBodHRwczovL2t1YmVybmV0ZXMuZG9ja2VyLmludGVybmFsOjY0NDMKICBuYW1lOiBkb2NrZXItZGVza3RvcApjb250ZXh0czoKLSBjb250ZXh0OgogICAgY2x1c3RlcjogZG9ja2VyLWRlc2t0b3AKICAgIHVzZXI6IGRvY2tlci1kZXNrdG9wCiAgbmFtZTogZG9ja2VyLWRlc2t0b3AKLSBjb250ZXh0OgogICAgY2x1c3RlcjogY2x1c3Rlci5sb2NhbAogICAgdXNlcjoga3ViZXJuZXRlcy1hZG1pbgogIG5hbWU6IGt1YmVybmV0ZXMtYWRtaW5AY2x1c3Rlci5sb2NhbApjdXJyZW50LWNvbnRleHQ6IGt1YmVybmV0ZXMtYWRtaW5AY2x1c3Rlci5sb2NhbApraW5kOiBDb25maWcKcHJlZmVyZW5jZXM6IHt9CnVzZXJzOgotIG5hbWU6IGRvY2tlci1kZXNrdG9wCiAgdXNlcjoKICAgIGNsaWVudC1jZXJ0aWZpY2F0ZS1kYXRhOiBMUzB0TFMxQ1JVZEpUaUJEUlZKVVNVWkpRMEZVUlMwdExTMHRDazFKU1VSUmFrTkRRV2x4WjBGM1NVSkJaMGxKU0ZOa1kwUmpOVVJNZW1kM1JGRlpTa3R2V2tsb2RtTk9RVkZGVEVKUlFYZEdWRVZVVFVKRlIwRXhWVVVLUVhoTlMyRXpWbWxhV0VwMVdsaFNiR042UVdWR2R6QjVUV3BCTlUxcVRYZE9SRTB5VFdwQ1lVWjNNSGxPUkVGNlRXcFpkMDFFVVRKTlJHaGhUVVJaZUFwR2VrRldRbWRPVmtKQmIxUkViazQxWXpOU2JHSlVjSFJaV0U0d1dsaEtlazFTYzNkSFVWbEVWbEZSUkVWNFNtdGlNazV5V2xoSmRGcHRPWGxNVjFKc0NtTXlkREJpTTBGM1oyZEZhVTFCTUVkRFUzRkhVMGxpTTBSUlJVSkJVVlZCUVRSSlFrUjNRWGRuWjBWTFFXOUpRa0ZSUXpoM1JHTXhUWFZYUjIxalUyZ0tha0pHZWtkWVNqZEdjbUUyVm5sclZ5OTRPVTFxTm5NNE5tMHlSVnBLWnpKVFZWWk1UMUo0U1U1c2FIRm1Xa1Z4V0ZaaWNHbGxWbUpGS3pkU05ETk5Sd3BIWlRWelVYbGhNVkJWVTNSeFZXbFpjemhxYWswdmJXdzFOV0UzYVRaMGNFUlJielZ5V1ZZdk5YVjVRMFIxTldGaGVFWm5Oa0p2Vkd4dVZFWTRZbGwyQ25Vd1ZuaG5RVEZoV2tVeWNrdHRhblpuV1dZMmFEZElibG93YUhSTFYwZHdiVFYyYlcxTlZsaFhUWE0yVlRCMlZqWXdNMlJqVG5JNGVVUTNRMHBZYURZS1MydHNOR3RqTjBwYVYyMXpjalkwT1NzeVIzbzNXbEUxWTJ4aWRETlFXRWRDZUZVelIwNUxSVzEzVmxWbFpqZHFiRGhuU1dkcFVrbHlZMDl4VmtsNWRRb3dXVVp6VFhKaWMybEpWVWRSUVVoWFRGVnJabEZyWVhWS2VqSlBlWGRTVEZwbmRtUXlTalZCVEZneU1YSTJUa1kxYlhweU1tWTFXbE1yYzA1eFlXRjZDa012WldKUk5VSklRV2ROUWtGQlIycGtWRUo2VFVFMFIwRXhWV1JFZDBWQ0wzZFJSVUYzU1VadlJFRlVRbWRPVmtoVFZVVkVSRUZMUW1kbmNrSm5SVVlLUWxGalJFRnFRVTFDWjA1V1NGSk5Ra0ZtT0VWQmFrRkJUVUk0UjBFeFZXUkpkMUZaVFVKaFFVWkxZbkJRY1ZwV2NVdENVSEExV2l0TlQzZGlSMEZXUXdwa1kxSlVUVUl3UjBFeFZXUkZVVkZYVFVKVFEwVnRVblpaTW5Sc1kya3hiV0l6U1hSYVIxWjZZVE5TZG1ORVFVNUNaMnR4YUd0cFJ6bDNNRUpCVVhOR0NrRkJUME5CVVVWQmJYbEhURkZLT0RCTWFUTTNNWFZQVmxGQ2RERjVTR3h5VkRVeVNrcEpRblZSVm1rd2JWSnphRXBvYmxocFFqRmlUVUpQYm5JM1VUZ0tZM1oyTnk5d1VsTlFRbFp1V25oMFZtVm5PV0p6ZUV0elRrOTJOSG95UTNkRlltZzNia296VFN0b01VcFFSRFV4TkVoUllVWkdjVVIzZWxBNFVHeDNNUW8yVm5KbFQwSnBNVVpvVG0xSk5HOXlRWHAyYm01TVZsVnZTVFp6T1RaT1VGb3hTWGx5VEZoS05uSmlSVVkxVnk5NldFWTRVMjExTmtOME1IY3hlalZ2Q21Zd09GZFRjV05LVUdWMldrWklOVTkyY0ZWcGVWTnVSbk5EWmpOU2JrRjVZVFpoYTNCclJVd3hla0pXY1ZWdk5WcEJSVEZ5TTJWT2J5dEtlRU16UWxjS2JsSkpVVkZtTXl0MVlYWXJhblU1UlRsdVVVWmxSRzlqVkcxUmRTdFFWbTE0WmpRd1J6UmpPWHBpVmt0UlpHUm9jbVp6U1RkS1Z6VmxTVTFETmtSV1JncEVRa1F5VldSVE5YUjZja1YxYm5oamFGUk1kVEpsU0hoeGVtTXhLMEU5UFFvdExTMHRMVVZPUkNCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2c9PQogICAgY2xpZW50LWtleS1kYXRhOiBMUzB0TFMxQ1JVZEpUaUJTVTBFZ1VGSkpWa0ZVUlNCTFJWa3RMUzB0TFFwTlNVbEZiMmRKUWtGQlMwTkJVVVZCZGsxQk0wNVVUR3hvY0c1RmIxbDNVbU40YkhsbGVHRXlkV3hqY0VaMk9HWlVTU3R5VUU5d2RHaEhVMWxPYTJ4R0NsTjZhMk5UUkZwWllXNHlVa3RzTVZjMldXNXNWM2hRZFRCbFRucENhRzUxWWtWTmJYUlVNVVZ5WVd4SmJVeFFTVFI2VURWd1pXVlhkVFIxY21GUk1Fc0tUMkV5Um1ZclluTm5aemQxVjIxelVsbFBaMkZGTlZvd2VHWkhNa3czZEVaaldVRk9WMjFTVG5GNWNHODNORWRJSzI5bGVEVXlaRWxpVTJ4b2NWcDFZZ28xY0dwR1ZqRnFURTlzVGt3eFpYUk9NMWhFWVM5Tlp5dDNhVlkwWldsd1NtVktTRTk1VjFad2Nrc3JkVkJtZEdoekt6SlZUMWhLVnpka2VqRjRaMk5XQ2s1NGFsTm9Tbk5HVmtodUt6UTFaa2xEU1VsclUwc3pSSEZzVTAxeWRFZENZa1JMTWpkSmFVWkNhMEZDTVdreFNrZ3dTa2R5YVdNNWFuTnpSVk15V1V3S00yUnBaVkZETVRsMFlTdHFVbVZhY3pZNWJpdFhWWFp5UkdGdGJYTjNkak50TUU5UlVuZEpSRUZSUVVKQmIwbENRVVJOVGxWdFJtcFBUVEpzVUZwbWN3cFRURkF6UTBFelpUUlBSMXAyV2xadmRqbENNMk16ZEhka1RuSkJWWEZOYzFGcUwwMVlTMlo2WlhkeGFXd3JZamRvUVhnMmNtSjRjWE5qWlROWE1UaHNDa2RIV0ZRMk9UVk9hV2QyYlc4MmIxcDRjRmxrWTNOTE5qRjJkek5HVFNzdlNsTnlaMnRwUlRoR2JrRXZSbG93UkVwS2IzWmlVVFJ5VUdJMWExZEZRMnNLZVVjeVoydDJkMFk0VkZGQmNtOHhTbGhpZDFobk4ycDRTMHBtVG1nNFVYRjNUMlpCVW5CNmVqRlNNbE5FYVV0TVJrRTJZeXRUYlc1bmQycG5iRzgwWlFwSVptSTVXalJaWkhjclVubzRkRU5DT1ZJNGVHeHdhQ3ROVlhscVUxZ3hZMWhpT0ZNd1dXRnJlRFpDTW5GTU5HNU9lbmhxTlRoQ09FWm1UVGt5VkdvNENsSnRSMlZJYmxSRVlsQjFiMkZaWm5GRVVtMUxXRzFsYVVGb1ZFUXphbmxGTjNKeVEzRlVkRk5PU1ROdWNqTldMMlJSUWxGVFprbFpRa05YZDNWaGNFVUtSV0ZSYjNoVVJVTm5XVVZCZDNRelpGaExTMjVQVW01T2NuRm9ZemxxVjB4VFZIbGxSVTF6Y21aTUwzSTVUMWR2TmpndkwxRkZaRVl3SzBWNlduUkhLd3BVY0dwWkwyVlNORXBsV1RRemJXMDVRMmxIYlRadVJsSnFjamxLUjBaTmVFNW1iMVZWV0VGWGJFSkJOVTVQY3preE5IZEtkRzQ1YURSbVN6QlJiakp5Q25SeldXcEVXRzVTVWpOR1dUQTFjMHhFYURnd1VWZzBaMk51UWpSWVMzSlZTR0pPWVdsUGFXWndWbGRFTWxGRGFrbHRZemx0YjFWRFoxbEZRVGt2WTNRS1lVSnRjbEpJYkRSMGFVSXhjVkJNVTFoS1Z6TnFhVzVqYkZCSFprdHNha3Q1WTBZMmVtNWlNRzEyTW04eFJFdE1kVEJEYkM5cVN6RnRSQzkwWlN0WFZBb3lkVzVFYkZGeFVGQnJlSFJuZEVSQ1ZHVjViRzlETVRkMlZpOHJjblF6VUd4Q1NGWmhVRWc1YjBFMlNGaHRabTlVUlVOVlFVeFZRMDAxYTJjM1RHZE5DamxSWVhkR2RVMHpNSEkwV0hJME1qSjJWbE5PS3psVllXaFJTVFZFVEZWMmNrTm1WVUl4YzBObldVSmtUMWhyYVZSVGNFWkdaMUZvWWpab2VHNVlTVk1LVTIwMmQxTkNTalEzZGxFMlVpOXFSbEE0S3pCa05sSXZWbVpwWVZWMlQwSmtTSGQ2UlhFNGMwdHVWRUZoYzA5dFlXa3dTbU5qWWpkNlMxWjVabkpLU0FwVFYyMWFRVVVyT0RZdmIwTlRRbmhuTVhwNk5sVjJlVWc1VHpKd09XRmtSbTVKY1N0amNUTmtVMDkxWlRaRmFXdHhLMkkzUVdoVlVubHdOalppYm5Sc0NqZG9lamczU2xWaWNYTnhWamhWYTJGT01YWjNXbEZMUW1kQ2RsRk1kR2x3V1VkMVN6QklOV3hRTmpGWGNIb3ZXbFF3UW5vNE5XdEdWRkozWWpNMGMyNEtNVFZYU0VKRlRFdFNkME5sVG5OM2JrbFVaRlpEYzJSelJFVkNSV0pSVVRKRGEydFRZVk5VVFhZNEwxaHBTV056UkhoMllsaHFSRTF5Y1RKQmJHTk1Md3BEVW1ZdldreHdjVkp6WWxKRmREVlRkRUZqYzFKdVdIaE1RamxDVDJKeVYwdEVVVFZCYXpkNVNWbG5RV1JyYm1kVVVtazVUek01UmpBME5WbFhSMDlSQ2tOQ2JGaEJiMGRCVTFFM2RrTTFTamhWV214bE1uaEpObEI0Vld0S2IzWjVOMjlWYVdzNGR6STRXRlIxZDI0MVVGUllOV3BQWlZaYWVHczJhakpZUTNVS2NVNUJOMEZWUWpjd1VqSmxPWEZIUVhkWE4xYzROMHd2VFRObE4zb3lPQ3NyTkdzeU5YRklSMVpKUWtObU0zRnhWVGg1YUZkQ1VESmhjMmRTUjNoWU5BcGlkblJ3YUVSNFRrbDJXa05OZDJGSVEzaG9jVWx5Ym1ObGVFWjJWMnhoYlZJdk9GbHJaVUpaYVhCaE5EVnZjV1F6UTI4OUNpMHRMUzB0UlU1RUlGSlRRU0JRVWtsV1FWUkZJRXRGV1MwdExTMHRDZz09Ci0gbmFtZToga3ViZXJuZXRlcy1hZG1pbgogIHVzZXI6CiAgICBjbGllbnQtY2VydGlmaWNhdGUtZGF0YTogTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUkpWRU5EUVdkdFowRjNTVUpCWjBsSlZIaGpWVkpSUTFvNGNUaDNSRkZaU2t0dldrbG9kbU5PUVZGRlRFSlJRWGRHVkVWVVRVSkZSMEV4VlVVS1FYaE5TMkV6Vm1sYVdFcDFXbGhTYkdONlFXVkdkekI1VFdwRmQwMVVVWGRQUkVrMFRYcEdZVVozTUhsTmVrVjNUVlJSZDA5RVNUUk5la3BoVFVSUmVBcEdla0ZXUW1kT1ZrSkJiMVJFYms0MVl6TlNiR0pVY0hSWldFNHdXbGhLZWsxU2EzZEdkMWxFVmxGUlJFVjRRbkprVjBwc1kyMDFiR1JIVm5wTVYwWnJDbUpYYkhWTlNVbENTV3BCVGtKbmEzRm9hMmxIT1hjd1FrRlJSVVpCUVU5RFFWRTRRVTFKU1VKRFowdERRVkZGUVRBM1QxSmlXRUZGY1V0aGNqaHBURVlLZVd0cFVHMHZhVFp4YWxCWFZIQnVNRk5rVGtSd1oyUm1hMVF6Vm1kdkswdFFTSHBMYTFCRE0wWjBXbnBSZEM5WGJHZzNaWFpOVFRCWU4zbzNNa3MwUlFwNVUwZG9XUzl6SzJ3eVMzSkVaSHB5Y1cxWGJFTmxWbXBtVmxoUWJGRkdRVkppWmt0MWNWcEliVUo0Tm5WS1lrSTRWVzV3VUU1S1dUSmtURk5EY1cxQkNtUnRiVGhSVkRJd2VqVnZOVUpYVldaalJrMHdaa0pHU1ZFMFJrVkNURVl6TWpFeWRUVjVTVGQzUTJWUFkxcE1iVzFUYmk5eVdrbFlUMEZqYkcxWE1VOEtUMmhZTjNFMk9GZzRlRWM1V0doNVEwVnZNMFZwTkhBNWNXeGpka3RLWlVNNGJEZFBUVGhFVWxaSWJWUnlRMmh1TDB3clQzazViSEYxWmtkd2FDODFXZ3BhVERKc1VqbEZUbFpRUm5seFpUQkNaSFpoYjAxUmMyWndkV296Y1VwRWRGVXphWEp4YkdkaFEydHJTbXRNZDBkWFMzSkRiR05XWXpod1REWkVkek15Q21SdGNEWmpVVWxFUVZGQlFtOHhXWGRXUkVGUFFtZE9Wa2hST0VKQlpqaEZRa0ZOUTBKaFFYZEZkMWxFVmxJd2JFSkJkM2REWjFsSlMzZFpRa0pSVlVnS1FYZEpkMFJCV1VSV1VqQlVRVkZJTDBKQlNYZEJSRUZtUW1kT1ZraFRUVVZIUkVGWFowSlVZbmxuTVVORGVqUjNRMU4wWkdKeGFVaE1Tbm93TldsVWJ3cFJSRUZPUW1kcmNXaHJhVWM1ZHpCQ1FWRnpSa0ZCVDBOQlVVVkJhRlpVWjJWNFF6WkZhMHd3YldscmFGSXpiemMwU2xBMGFEQXdTazk2ZWt0c2VHdHdDalE1Y1ZkWlIxSkxhamRrY3pKTFdUQllSSGx5VVVwWVdTOVRWR1UyV0VJeFpIVnFUVEJ2T0RORFRrMXJVMUJNUVM5clZqZDFSVWt3YkhwMGNYaG5RVkFLTmtwQ01XcDRMMUJXVjJOaVJsRlhZbEZEUTNKak5tOXFORFZOYXpGRVRXVnRjSGR6VkUxVksxcGhTR05QTWt3NFREUm1SMHRXVUhNMVRuZEZNRUZtYUFwWFpXUmFjM2hFV1RGT1VGazNlbUZqTVhkRFJEQlVaVEl4UWpSMU5XUXZURXgzU1hGbUsxaEhOQ3RLTTJsQlRtczRWMEprZUROMWEwODBSMnhtWmpVd0NtSlRaRlp0SzAxelJpdElRMWw0TkM5TE5YQTNaamx3TDJOeE56aDZjbmxPWVZWdE1saEpURUU0YkRGNlFtRnhWamhWT0ZKc1YwSXdVbTFoU2xCTVpWTUtiRVZWTTFkYWRtMUZiaXQxTjJNMFNrVnJkR05MWTIxU01HWkpaRWR2U0dWcmRrcFJURlpwWVVsb2RrRTJUVzlzU0djOVBRb3RMUzB0TFVWT1JDQkRSVkpVU1VaSlEwRlVSUzB0TFMwdENnPT0KICAgIGNsaWVudC1rZXktZGF0YTogTFMwdExTMUNSVWRKVGlCU1UwRWdVRkpKVmtGVVJTQkxSVmt0TFMwdExRcE5TVWxGY0VGSlFrRkJTME5CVVVWQk1EZFBVbUpZUVVWeFMyRnlPR2xNUm5scmFWQnRMMmsyY1dwUVYxUndiakJUWkU1RWNHZGtabXRVTTFabmJ5dExDbEJJZWt0clVFTXpSblJhZWxGMEwxZHNhRGRsZGsxTk1GZzNlamN5U3pSRmVWTkhhRmt2Y3l0c01rdHlSR1I2Y25GdFYyeERaVlpxWmxaWVVHeFJSa0VLVW1KbVMzVnhXa2h0UW5nMmRVcGlRamhWYm5CUVRrcFpNbVJNVTBOeGJVRmtiVzA0VVZReU1IbzFielZDVjFWbVkwWk5NR1pDUmtsUk5FWkZRa3hHTXdveU1USjFOWGxKTjNkRFpVOWpXa3h0YlZOdUwzSmFTVmhQUVdOc2JWY3hUMDlvV0RkeE5qaFlPSGhIT1Zob2VVTkZiek5GYVRSd09YRnNZM1pMU21WRENqaHNOMDlOT0VSU1ZraHRWSEpEYUc0dlRDdFBlVGxzY1hWbVIzQm9MelZhV2t3eWJGSTVSVTVXVUVaNWNXVXdRbVIyWVc5TlVYTm1jSFZxTTNGS1JIUUtWVE5wY25Gc1oyRkRhMnRLYTB4M1IxZExja05zWTFaak9IQk1Oa1IzTXpKa2JYQTJZMUZKUkVGUlFVSkJiMGxDUVZGRVNFd3ZjVk5VVFdGc1drbFVLd3BSTkdRd1dqaGtkbWx3TUdacVlubEViMnRzSzNWT0t6WjBUVGxRYldreGRFNWtPWE5SUlVwalJUVkdRbFpMSzBsaFdrY3ZSaTloWkVKMFNXUnFibEZ6Q2tWTVowTkJjbTFYYlVGMmVGcHRNM0JyYTJKUGQyVnhRMGxEYmpOQlMyeGhNbkF4T1hVMGRIUkRVWHAwTmpCWWQzSnFRakk1WjAxV1RHaHNXbWRuYjAwS04wTlZjSGhTZWxSRFpITTFVbXBQUjJoMmIwbDBkRVEwVGpBMlZqWTNRbFpSVmxCaE1rTmFaa2w0WVVsQmVFNHdkSFJaUmxCQ1dGVmtUeXRRV2tkdFJ3cGFjR0ZUUWtodWNHZHlMemhDUVd4dVozTTFWa2N3ZUVOU2JHOVRSbWwwYTBOVFZWTlhZblZwV1VoTWN6azNWekZLZGxoUGN6RktRV2t5VlV0TGIxTXpDbUp5ZHpWamRsaFhXWFJIWjJGRFMyTXJabFpxYmpoNFNGUnZaVmxqWW5wYVNVVk9UbVJzWjA1aWRYaHZhbUpsU1U5dGRtWjBOVWswV2s5cmJtVkxWRXdLVm01NlozQkdjV1JCYjBkQ1FVNXNZVmxTTjNGTE0zRXhTMWR2Umtaek1XbEtjVVpMU0VwSFdFcFBhbE5rUWl0RmVIVjRNSFZDSzFkT1NucFFSRmcwY1FwNFlqRllXVGcyZWxCWGJXeEJPR2hLZFZaTGR6bExiRU5hVWs5UVNHaHFSV04zUWpCVVJrRmFORkYzTlU1Q2F6Vm9NVGhNU1ZkNWMzaEZOMUJ1YURSS0NtZFlOMHhCTXpFMGIybzFkR2RSUkRjM1dGQm1TRTlHYlV3M2FYZFNlRzB6VW1OellqaDJMekJHZFdGVFVDOHlWMmhVY1hsU09IZ3ZRVzlIUWtGUWJGZ0tOekpNY1RoYWRUTTBRekF2YUdocVl5OTRVMng1Y0dKTGMyRndObVI0ZGxoRFFYaHBMMWgzWW1WSWJFaEZTRmRLTTFwNmQwOTVNemxJTkhaVVdpc3pNQXBXVjJaRmVHRkpWbVl5WjBzNUx6QklaVElyVTJGTmJVaG5NbFU0UWxaeFJ6UjVUVVZ6Vms5bVkxa3ZSSFZ4Y2pneU1tczViaXRETDB0cldYRnJNRVpYQ2xZNE5EbFdjMGRaVERadGRqUjRURll3UWtwU2FHaFpkakJMWjIwdkt6WjRSbmhWYWtaM1JWQkJiMGRCUzFsNVRscEZkQzlhUlZka1ZsSmpSRGxPTnlzS1dUTmhNMWd4TVRGUlRYZzJVbXQzY21WeFoxWlRibEk0VDJveVlWcHlVRzFsVUhSeWNVOWxObkJoWkZaM1kxQlhSMWRwWVZoSlJFVnpZV2cyUzBkSWJBcFhaMFJvVm1FMlkzaHhiRzkyUTIxNlNuZG5TbkUyZVdKSGFsY3lSa05tWkVOVkwyeHhkV0ZWYmxSd2VHNXhOa3RDWTNoM2VVOVhkakpoTlZrMlUwZFFDbmhtVUdoNkszWndUazF3WjFWVGJXczNhMDlIVm1sRlEyZFpRakJuTUVzMVZtc3ZVVVV2ZDA1TFRVaG5ia2RSVm05bFRXOHdNRFY0SzNkbWRGZHRNMGtLVnk5c1dFcFFPRWR5VFRWclNHbG5VVlJpUmxweVFUUjRjVWhtU1VkWlVsQkhVVkJCTWxseVVHTXhRM1ZUTDBSRFJXZG5iRWs0TW1sWlNXMW1ORFptTHdwc1VraEliMXB1VUU1QlltMUlORWh1YVRSU1NqUlJieTh2TWxWUlFYVnFSVEZ4VkZSclpXMTZkMUo1Tm10SE4wdEpTVFJ1YWk5Q1VXOTFhVEZCVFhSdkNtUlNNSEYzVVV0Q1oxRkRObTVNTXpJcmNHTmFNM0pKZEM5dWR6a3JjVGhPVVUxa1IzY3lNek5XZWs1WlNGRnJaVTlsUTJ3eFNFZE5OMkZhT0VkeEsyTUtRV0ZzY2pKNWFtTXdkbXh3YldaaVNYbFdNVnBrUTBsS1N6TjZaalp1YTJ0VVpqZDBTelJ2UlVaMVZuRlZTSFpNY1c1cVMyTnljRUpNWTNkdFFsbG1aQXBpVVdGb2JrOVFiVGR1T1U1TGN5OHdZVFpwZVRSMk9IVlZUalZpU1dkQ1pEZ3hZekZCYW1sM2FuWlNjVzByWlZoTFVUTk5kbEU5UFFvdExTMHRMVVZPUkNCU1UwRWdVRkpKVmtGVVJTQkxSVmt0TFMwdExRbz0K
+---
+# Source: uyuni-suite/charts/mariadb/templates/primary/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb
+  namespace: "release-5"
+  labels:
+    app.kubernetes.io/name: mariadb
+    helm.sh/chart: mariadb-11.4.5
+    app.kubernetes.io/instance: uyuni-suite
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+data:
+  my.cnf: |-
+    [mysqld]
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mariadb
+    plugin_dir=/opt/bitnami/mariadb/plugin
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    tmpdir=/opt/bitnami/mariadb/tmp
+    max_allowed_packet=16M
+    bind-address=*
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+    log-error=/opt/bitnami/mariadb/logs/mysqld.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+    slow_query_log=0
+    slow_query_log_file=/opt/bitnami/mariadb/logs/mysqld.log
+    long_query_time=10.0
+    interactive_timeout=1803
+    wait_timeout=1803
+    
+    [client]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    default-character-set=UTF8
+    plugin_dir=/opt/bitnami/mariadb/plugin
+    
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+---
+# Source: uyuni-suite/templates/frontend-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uyuni-suite-frontend-config
+  namespace: release-5
+data:
+  nginx.conf: |-
+    upstream uyuni-manager-core {
+        server uyuni-suite-core:8080;
+    }
+
+    upstream uyuni-manager-noti {
+        server uyuni-suite-noti:8080;
+    }
+
+    upstream uyuni-manager-batch {
+        server uyuni-suite-batch:8080;
+    }
+
+    server {
+        client_max_body_size 0;
+        listen 80;
+        location / {
+            root    /app/build;
+            index   index.html;
+            try_files $uri $uri/ /index.html;
+        }
+
+        location /api/v1/monitor {
+            proxy_pass  http://uyuni-manager-core/api/v1/monitor;
+        }
+
+        location /api/v1/manager {
+            proxy_pass  http://uyuni-manager-core/api/v1/manager;
+        }
+
+        location /api/v1/noti {
+            proxy_pass  http://uyuni-manager-noti/api/v1/noti;
+        }
+
+        location /manager/ws {
+            proxy_pass  http://uyuni-manager-core/manager/ws;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
+        }
+
+        location /docs {
+            proxy_pass  http://uyuni-manager-core/docs;
+        }
+    }
+---
+# Source: uyuni-suite/templates/mig-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mig-config
+  namespace: release-5
+data:
+  migProfile.json: |-
+    {
+      "migProfiles": [
+        {
+          "migProduct": "A100_40GB",
+          "migInfos": [
+            {
+              "migProfile": "1g.5gb",
+              "count": 7
+            },
+            {
+              "migProfile": "2g.10gb",
+              "count": 3
+            },
+            {
+              "migProfile": "3g.20gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.20gb",
+              "count": 1
+            },
+            {
+              "migProfile": "7g.40gb",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "migProduct": "A100_80GB",
+          "migInfos": [
+            {
+              "migProfile": "1g.10gb",
+              "count": 7
+            },
+            {
+              "migProfile": "2g.20gb",
+              "count": 3
+            },
+            {
+              "migProfile": "3g.40gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.40gb",
+              "count": 1
+            },
+            {
+              "migProfile": "7g.80gb",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "migProduct": "H100",
+          "migInfos": [
+            {
+              "migProfile": "1g.10gb",
+              "count": 7
+            },
+            {
+              "migProfile": "2g.20gb",
+              "count": 3
+            },
+            {
+              "migProfile": "3g.40gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.40gb",
+              "count": 1
+            },
+            {
+              "migProfile": "7g.80gb",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "migProduct": "A30",
+          "migInfos": [
+            {
+              "migProfile": "1g.6gb",
+              "count": 4
+            },
+            {
+              "migProfile": "2g.12gb",
+              "count": 2
+            },
+            {
+              "migProfile": "4g.24gb",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+---
+# Source: uyuni-suite/templates/pvc-core.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: "uyuni-pvc"
+  namespace: release-5
+  annotations:
+    helm.sh/resource-policy: keep
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Source: uyuni-suite/templates/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: uyuni-role
+  namespace: release-5
+rules:
+  - apiGroups: ["*"]
+    resources: ["jobs", "statefulsets", "services", "daemonsets", "pods", "configmaps", "configmaps", "nodes", "ingresses"]
+    verbs: ["*"]
+---
+# Source: uyuni-suite/templates/role-binding.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: uyuni-role-binding
+  namespace: release-5
+subjects:
+  - kind: ServiceAccount
+    name: default
+roleRef:
+  kind: Role
+  name: uyuni-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: uyuni-suite/charts/mariadb/templates/primary/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  namespace: "release-5"
+  labels:
+    app.kubernetes.io/name: mariadb
+    helm.sh/chart: mariadb-11.4.5
+    app.kubernetes.io/instance: uyuni-suite
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: mysql
+      nodePort: null
+  selector: 
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/instance: uyuni-suite
+    app.kubernetes.io/component: primary
+---
+# Source: uyuni-suite/templates/service-batch.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "uyuni-suite-batch"
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: tomcat
+  selector:
+    app: uyuni-suite-batch
+---
+# Source: uyuni-suite/templates/service-core.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "uyuni-suite-core"
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: tomcat
+  selector:
+    app: uyuni-manager-core
+---
+# Source: uyuni-suite/templates/service-frontend.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "uyuni-suite-frontend"
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+      nodePort: 30080
+  selector:
+    app: uyuni-suite-frontend
+---
+# Source: uyuni-suite/templates/service-noti.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "uyuni-suite-noti"
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: tomcat
+  selector:
+    app: uyuni-suite-noti
+---
+# Source: uyuni-suite/templates/deployment-batch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "uyuni-suite-batch"
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uyuni-suite-batch
+  template:
+    metadata:
+      labels:
+        app: uyuni-suite-batch
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: uyuni-suite
+          securityContext:
+            {}
+          image: "xiilab/uyuni-manager-batch:0.5.4-stag"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: K8S_NAMESPACE
+              value: "release-5"
+            - name: KEYCLOAK_REALM
+              value: uyuni
+            - name: KEYCLOAK_AUTHSERVERURL
+              value: "http://192.168.1.235:30051/auth"
+            - name: KEYCLOAK_RESOURCE
+              value: uyuni
+            - name: ADMIN_PASSWORD
+              value: "keycloak12345"
+          ports:
+            - name: tomcat
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          resources:
+            {}
+---
+# Source: uyuni-suite/templates/deployment-core.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uyuni-manager-core
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uyuni-manager-core
+  template:
+    metadata:
+      labels:
+        app: uyuni-manager-core
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: uyuni-suite
+          securityContext:
+            {}
+          image: "xiilab/uyuni-manager-core:0.5.4-stag"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: mig-profile-path
+              value: /root/migProfile/migProfile.json
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: KEYCLOAK_REALM
+              value: uyuni
+            - name: KEYCLOAK_AUTHSERVERURL
+              value: "http://192.168.1.235:30051/auth"
+            - name: KEYCLOAK_RESOURCE
+              value: uyuni
+            - name: ADMIN_PASSWORD
+              value: "keycloak12345"
+            - name: K8S_NAMESPACE
+              value: "release-5"
+            - name: UYUNIHOST
+              value: "uyuni-suite.xiilab.com"
+            - name: ADMIN_INIT-PASSWORD
+              value: ideafactory
+            - name: KEYCLOAK_SSL-REQUIRED
+              value: none
+          ports:
+            - name: tomcat
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          resources:
+            {}
+          volumeMounts:
+            - mountPath: "/root/.kube"
+              name: kube-config
+              readOnly: true
+            - mountPath: "/root/uyuni"
+              name: uyuni-pvc
+            - mountPath: "/root/migProfile"
+              name: mig-profile
+      volumes:
+        - name: mig-profile
+          configMap:
+            name: mig-config
+        - name: kube-config
+          secret:
+            secretName: kube-config
+        - name: uyuni-pvc
+          persistentVolumeClaim:
+            claimName: "uyuni-pvc"
+---
+# Source: uyuni-suite/templates/deployment-frontend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "uyuni-suite-frontend"
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uyuni-suite-frontend
+  template:
+    metadata:
+      labels:
+        app: uyuni-suite-frontend
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: uyuni-suite
+          securityContext:
+            {}
+          image: "xiilab/uyuni-suite-frontend:0.5.5-stag"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REACT_APP_KEYCLOAK_REALM
+              value: uyuni
+            - name: REACT_APP_KEYCLOAK_CLIENT_ID
+              value: uyuni
+            - name: REACT_APP_KEYCLOAK_URL
+              value: "http://192.168.1.235:30051/auth"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: uyuni-suite-frontend-config
+---
+# Source: uyuni-suite/templates/deployment-noti.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "uyuni-suite-noti"
+  namespace: release-5
+  labels:
+    helm.sh/chart: uyuni-suite-0.1.0
+    app.kubernetes.io/name: uyuni-suite
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uyuni-suite-noti
+  template:
+    metadata:
+      labels:
+        app: uyuni-suite-noti
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: uyuni-suite
+          securityContext:
+            {}
+          image: "xiilab/uyuni-manager-noti:0.5.4-stag"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: SPRING_KAFKA_CONSUMER_BOOTSTRAP-SERVERS
+              value: kafka-cp-kafka.kafka.svc:9092
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP-SERVERS
+              value: kafka-cp-kafka.kafka.svc:9092
+          ports:
+            - name: tomcat
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          resources:
+            {}
+---
+# Source: uyuni-suite/charts/mariadb/templates/primary/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+  namespace: "release-5"
+  labels:
+    app.kubernetes.io/name: mariadb
+    helm.sh/chart: mariadb-11.4.5
+    app.kubernetes.io/instance: uyuni-suite
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels: 
+      app.kubernetes.io/name: mariadb
+      app.kubernetes.io/instance: uyuni-suite
+      app.kubernetes.io/component: primary
+  serviceName: mariadb
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/configuration: f759b324dc27719281cc3349a9a9046d255385cd03a07e51e1d65242aca32ddd
+      labels:
+        app.kubernetes.io/name: mariadb
+        helm.sh/chart: mariadb-11.4.5
+        app.kubernetes.io/instance: uyuni-suite
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: primary
+    spec:
+      
+      serviceAccountName: mariadb
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: mariadb
+                    app.kubernetes.io/instance: uyuni-suite
+                    app.kubernetes.io/component: primary
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: mariadb
+          image: docker.io/bitnami/mariadb:10.6.10-debian-11-r6
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            runAsNonRoot: true
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb
+                  key: mariadb-root-password
+            - name: MARIADB_USER
+              value: "uyuni"
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb
+                  key: mariadb-password
+            - name: MARIADB_DATABASE
+              value: "uyuni"
+          ports:
+            - name: mysql
+              containerPort: 3306
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MARIADB_ROOT_PASSWORD:-}"
+                  if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MARIADB_ROOT_PASSWORD:-}"
+                  if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          resources: 
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/mariadb
+            - name: config
+              mountPath: /opt/bitnami/mariadb/conf/my.cnf
+              subPath: my.cnf
+      volumes:
+        - name: config
+          configMap:
+            name: mariadb
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels: 
+          app.kubernetes.io/name: mariadb
+          app.kubernetes.io/instance: uyuni-suite
+          app.kubernetes.io/component: primary
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+
