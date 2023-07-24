@@ -28,7 +28,7 @@ uyuni:
     image:
       repository: "{{ .Values.uyuni.frontend.repository  }}"
       pullPolicy: IfNotPresent
-      tag: "{{ .Values.uyuni.core.repository }}"
+      tag: "{{ .Values.uyuni.frontend.imageTag }}"
 
   core:
     image:
