@@ -25,7 +25,7 @@ kafka:
     servers: 1
 
 keycloak:
-  keycloakAdminPassword: keycloak12345
+  keycloakAdminPassword: xiilabPassword3#
   themeUrl:  https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6.1/uyuni-suite-keycloak-theme-v1.2.6.1.jar
   nodePort: 30090
   nodeSelector: {} 
