@@ -4,7 +4,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: mariadb
-  namespace: "default"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mariadb
-  namespace: "default"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -44,7 +44,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mariadb
-  namespace: "default"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -288,7 +288,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mariadb
-  namespace: "default"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -424,7 +424,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: dev
             - name: K8S_NAMESPACE
-              value: "default"
+              value: "release-4"
             - name: KEYCLOAK_REALM
               value: uyuni
             - name: KEYCLOAK_AUTHSERVERURL
@@ -495,7 +495,7 @@ spec:
             - name: ADMIN_PASSWORD
               value: "xiilabPassword3#"
             - name: K8S_NAMESPACE
-              value: "default"
+              value: "release-4"
             - name: UYUNIHOST
               value: "uyuni-suite.xiilab.com"
             - name: ADMIN_INIT-PASSWORD
@@ -657,7 +657,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mariadb
-  namespace: "default"
+  namespace: "release-4"
   labels:
     app.kubernetes.io/name: mariadb
     helm.sh/chart: mariadb-11.4.5
@@ -678,7 +678,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configuration: bf3dfb82350aaf53b6b53c3fdb75ba14255e9fc8ddb01bc1f5d3d6f7ed5110ee
+        checksum/configuration: 5ff2c6662a93f590ede6b5fc3b07b0e0538fcea29d9ef5c09438e0117bc203aa
       labels:
         app.kubernetes.io/name: mariadb
         helm.sh/chart: mariadb-11.4.5
