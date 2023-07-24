@@ -376,7 +376,7 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-      nodePort: 30100
+      nodePort: 30004
   selector:
     app: uyuni-suite-frontend
 ---

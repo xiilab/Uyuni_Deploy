@@ -36,7 +36,7 @@ prometheus:
   tolerations: []
 
 uyuni:
-  nodePort: 30100
+  nodePort: 30004
   keycloakUrl: http://192.168.1.235:30051/auth
   
   frontend:
