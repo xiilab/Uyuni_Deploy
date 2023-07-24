@@ -2,15 +2,12 @@ environments:
   default:
     values:
     - environments/default/values.yaml
+  stage:
+    values:
+    - environments/stage/values.yaml
   kaist:
     values:
     - environments/kaist/values.yaml
-  release-0.4:
-    values:
-    - environments/stage/release-0.4.yaml
-  release-0.5:
-    values:
-    - environments/stage/release-0.5.yaml
    
 
 helmDefaults:
