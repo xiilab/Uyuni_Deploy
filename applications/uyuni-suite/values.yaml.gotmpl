@@ -1,50 +1,37 @@
-# Default values for uyuni-suite-helm.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 uyuni:
   common:
     service:
       type: NodePort
-      nodePort: "{{ .Values.uyuni.nodePort }}"
-
+      nodePort: '{{ .Values.uyuni.nodePort }}'
     keycloak:
-      url: "{{ .Values.uyuni.keycloakUrl }}"
-      adminPassword: "{{ .Values.keycloak.keycloakAdminPassword }}"
-
+      url: '{{ .Values.uyuni.keycloakUrl }}'
+      adminPassword: '{{ .Values.keycloak.keycloakAdminPassword }}'
     persistence:
       enabled: true
-      resourcePolicy: "keep"
-      existingClaim: ""
-      # Specify the "storageClass" used to provision the volume. Or the default
-      # StorageClass will be used (the default).
-      # Set it to "-" to disable dynamic provisioning
-      storageClass: ""
-      subPath: ""
+      resourcePolicy: keep
+      existingClaim: ''
+      storageClass: ''
+      subPath: ''
       accessMode: ReadWriteOnce
       size: 5Gi
-      annotations: { }
-
+      annotations: {}
   frontend:
     image:
       repository: xiilab/uyuni-suite-frontend
       pullPolicy: IfNotPresent
-      tag: "0.4.87-stag"
-
+      tag: 0.4.87-stag
   core:
     image:
       repository: xiilab/uyuni-manager-core
       pullPolicy: IfNotPresent
-      tag: "0.4.67-stag"
-
+      tag: 0.4.79-stag
   batch:
     image:
       repository: xiilab/uyuni-manager-batch
       pullPolicy: IfNotPresent
-      tag: "0.4.67-stag"
-
+      tag: 0.4.79-stag
   noti:
     image:
       repository: xiilab/uyuni-manager-noti
       pullPolicy: IfNotPresent
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.4.67-stag"
+      tag: 0.4.79-stag
