@@ -30,6 +30,7 @@ prometheus:
   nodeSelector: {}
   tolerations: []
 uyuni:
+  namespace: release-5
   nodePort: 30005
   adminPassword: uyuni
   keycloakUrl: http://192.168.1.235:30051/auth

@@ -16,7 +16,7 @@ alertmanager:
     - name: 'null'
     - name: 'webhook'
       webhook_configs:
-      - url: 'http://alert-check.default.svc:5000/'
+      - url: 'http://uyuni-manager-core.{{ .Values.uyuni.namespace }}.svc:8080/'
     templates:
     - '/etc/alertmanager/config/*.tmpl'
 
