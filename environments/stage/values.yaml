@@ -39,6 +39,11 @@ uyuni:
   nodePort: 30005
   adminPassword: uyuni
   keycloakUrl: http://192.168.1.235:30051/auth
+
+  frontend:
+    imageTag: 0.5.4-stag
+  backend:
+    imageTag: 0.5.5-stag
   
 slurm:
   enabled: true
