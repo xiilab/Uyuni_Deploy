@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: mig-config
 data:
-  MigProfile.json: |-
+  migProfile.json: |-
     {
       "migProfiles": [
         {
