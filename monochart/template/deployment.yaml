@@ -418,7 +418,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "harbor.xiilab.com/uyuni-suite/uyuni-manager-batch:0.899-dev"
+          image: "xiilab/uyuni-manager-batch:0.4.83-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -479,7 +479,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "harbor.xiilab.com/uyuni-suite/uyuni-manager-core:0.899-dev"
+          image: "xiilab/uyuni-manager-core:0.4.83-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: mig-profile-path
@@ -566,7 +566,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "harbor.xiilab.com/uyuni-suite/uyuni-suite-frontend:0.721-dev"
+          image: "xiilab/uyuni-suite-frontend:0.4.92-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: REACT_APP_KEYCLOAK_REALM
@@ -624,7 +624,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "harbor.xiilab.com/uyuni-suite/uyuni-manager-noti:0.899-dev"
+          image: "xiilab/uyuni-manager-noti:0.4.83-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE

@@ -17,21 +17,21 @@ uyuni:
       annotations: {}
   frontend:
     image:
-      repository: harbor.xiilab.com/uyuni-suite/uyuni-suite-frontend
+      repository: xiilab/uyuni-suite-frontend
       pullPolicy: IfNotPresent
-      tag: 0.721-dev
+      tag: 0.4.92-stag
   core:
     image:
-      repository: harbor.xiilab.com/uyuni-suite/uyuni-manager-core
+      repository: xiilab/uyuni-manager-core
       pullPolicy: IfNotPresent
-      tag: 0.899-dev
+      tag: 0.4.83-stag
   batch:
     image:
-      repository: harbor.xiilab.com/uyuni-suite/uyuni-manager-batch
+      repository: xiilab/uyuni-manager-batch
       pullPolicy: IfNotPresent
-      tag: 0.899-dev
+      tag: 0.4.83-stag
   noti:
     image:
-      repository: harbor.xiilab.com/uyuni-suite/uyuni-manager-noti
+      repository: xiilab/uyuni-manager-noti
       pullPolicy: IfNotPresent
-      tag: 0.899-dev
+      tag: 0.4.83-stag
