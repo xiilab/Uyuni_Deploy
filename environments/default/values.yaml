@@ -26,7 +26,8 @@ kafka:
 
 keycloak:
   keycloakAdminPassword: keycloak12345
-  themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6.6/uyuni-suite-keycloak-theme-v1.2.6.6.jar
+  imageTag: v1.2.6.6
+  #themeUrl:  https://github.com/xiilab/keycloak-theme-uyuni/releases/download/v1.2.6.1/uyuni-suite-keycloak-theme-v1.2.6.1.jar
   nodePort: 30090
   nodeSelector: {} 
   tolerations: []

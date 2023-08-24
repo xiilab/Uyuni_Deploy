@@ -42,13 +42,13 @@ ingress:
 
 extraInitContainers: | 
   - name: init-customtheme
-    image: jacobcarlborg/docker-alpine-wget
+    image: xiilab/uyuni-keycloak-theme:{{ .Values.keycloak.imageTag }}
     command:
       - sh
     args:
       - -c
       - | 
-       echo "check_certificate = off" >> ~/.wgetrc && wget {{ .Values.keycloak.themeUrl }} -P /theme
+       cp -vu /uyuni-suite-keycloak-theme.jar /theme
     volumeMounts:
       - name: theme
         mountPath: /theme
