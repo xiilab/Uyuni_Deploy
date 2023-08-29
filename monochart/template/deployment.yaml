@@ -579,7 +579,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "xiilab/uyuni-suite-frontend:0.5.19-stag"
+          image: "xiilab/uyuni-suite-frontend:0.5.21-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: REACT_APP_KEYCLOAK_REALM
