@@ -29,7 +29,8 @@ kafka:
 
 keycloak:
   keycloakAdminPassword: keycloak12345
-  themeUrl: http://192.168.10.55/theme/uyuni-suite-keycloak-theme-v1.2.6.2.jar
+  imageTag: v1.2.6.6
+  #themeUrl: http://192.168.10.55/theme/uyuni-suite-keycloak-theme-v1.2.6.2.jar
 
   nodePort: 30090
   nodeSelector: {} 
