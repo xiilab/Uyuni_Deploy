@@ -111,6 +111,7 @@ data:
             index   index.html;
             try_files $uri $uri/ /index.html;
             proxy_send_timeout 600;
+            proxy_read_timeout 300;
             send_timeout 600;
         }
 
