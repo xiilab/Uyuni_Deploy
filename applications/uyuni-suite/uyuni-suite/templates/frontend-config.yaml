@@ -17,14 +17,14 @@ data:
         server {{ $fullName }}-batch:8080;
     }
 
-    server {
-        client_max_body_size 0;        
+    server {        
         listen 80;
         location / {
             root    /app/build;
             index   index.html;
             try_files $uri $uri/ /index.html;
             proxy_read_timeout 21600;
+            client_max_body_size 0;
         }
 
         location /api/v1/monitor {
@@ -34,10 +34,13 @@ data:
         location /api/v1/manager {
             proxy_pass  http://uyuni-manager-core/api/v1/manager;
             proxy_read_timeout 21600;
+            client_max_body_size 0;
         }
 
         location /api/v1/noti {
             proxy_pass  http://uyuni-manager-noti/api/v1/noti;
+            proxy_read_timeout 21600;
+            client_max_body_size 0;
         }
 
         location /manager/ws {
