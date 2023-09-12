@@ -424,7 +424,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "xiilab/uyuni-manager-batch:0.4.101-stag"
+          image: "xiilab/uyuni-manager-batch:0.4.102-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -485,7 +485,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "xiilab/uyuni-manager-core:0.4.101-stag"
+          image: "xiilab/uyuni-manager-core:0.4.102-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: mig-profile-path
@@ -630,7 +630,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "xiilab/uyuni-manager-noti:0.4.101-stag"
+          image: "xiilab/uyuni-manager-noti:0.4.102-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
