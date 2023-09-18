@@ -105,12 +105,11 @@ data:
 
     server {        
         listen 80;
-        client_max_body_size 0;
+        
         location / {
             root    /app/build;
             index   index.html;
             try_files $uri $uri/ /index.html;
-            proxy_read_timeout 21600;
             client_max_body_size 0;
         }
 
@@ -126,8 +125,6 @@ data:
 
         location /api/v1/noti {
             proxy_pass  http://uyuni-manager-noti/api/v1/noti;
-            proxy_read_timeout 21600;
-            client_max_body_size 0;
         }
 
         location /manager/ws {
