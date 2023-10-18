@@ -33,7 +33,7 @@ uyuni:
   namespace: release-5
   nodePort: 30005
   adminPassword: uyuni
-  keycloakUrl: http://192.168.1.235:30051/auth
+  keycloakUrl: http://211.218.247.34:30051/auth
   frontend:
     imageTag: 0.5.21-stag
   backend:

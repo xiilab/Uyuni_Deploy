@@ -443,7 +443,7 @@ spec:
             - name: KEYCLOAK_REALM
               value: uyuni
             - name: KEYCLOAK_AUTHSERVERURL
-              value: "http://192.168.1.235:30051/auth"
+              value: "http://211.218.247.34:30051/auth"
             - name: KEYCLOAK_RESOURCE
               value: uyuni
             - name: ADMIN_PASSWORD
@@ -505,7 +505,7 @@ spec:
             - name: KEYCLOAK_REALM
               value: uyuni
             - name: KEYCLOAK_AUTHSERVERURL
-              value: "http://192.168.1.235:30051/auth"
+              value: "http://211.218.247.34:30051/auth"
             - name: KEYCLOAK_RESOURCE
               value: uyuni
             - name: ADMIN_PASSWORD
@@ -591,7 +591,7 @@ spec:
             - name: REACT_APP_KEYCLOAK_CLIENT_ID
               value: uyuni
             - name: REACT_APP_KEYCLOAK_URL
-              value: "http://192.168.1.235:30051/auth"
+              value: "http://211.218.247.34:30051/auth"
           ports:
             - name: http
               containerPort: 80
