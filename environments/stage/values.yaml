@@ -37,7 +37,7 @@ uyuni:
   frontend:
     imageTag: 0.5.21-stag
   backend:
-    imageTag: 0.5.38-stag
+    imageTag: 0.5.39-stag
 slurm:
   enabled: true
   slurmUrl: http://192.168.1.46:8082
