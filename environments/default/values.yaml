@@ -1,5 +1,9 @@
 airgap:
-  repository: 192.168.10.55:5001
+  repository: 
+    nvcr: nvcr.io
+    k8s: registry.k8s.io
+    docker: docker.io
+    quay: quay.io
 
 common:
   ingress:

@@ -1,5 +1,5 @@
 image:
-  repository: {{ .Values.airgap.repository }}/keycloak/keycloak
+  repository: {{ .Values.airgap.repository.quay }}/keycloak/keycloak
   tag: ""
 
 extraEnv: |
@@ -84,13 +84,13 @@ tolerations:
 pgchecker:
   image:
     # Docker image used to check Postgresql readiness at startup
-    repository: {{ .Values.airgap.repository }}/busybox
+    repository: {{ .Values.airgap.repository.docker }}/busybox
     # Image tag for the pgchecker image
     tag: 1.32
 
 postgresql:
   image:
-    registry: {{ .Values.airgap.repository }} 
+    registry: {{ .Values.airgap.repository.docker }} 
     repository: bitnami/postgresql
     tag: 11.14.0-debian-10-r28
   primary:
