@@ -435,7 +435,7 @@ spec:
             - name: KEYCLOAK_RESOURCE
               value: uyuni
             - name: ADMIN_PASSWORD
-              value: "xiilabPassword3#"
+              value: "xiirocks"
           ports:
             - name: tomcat
               containerPort: 8080
@@ -496,7 +496,7 @@ spec:
             - name: KEYCLOAK_RESOURCE
               value: uyuni
             - name: ADMIN_PASSWORD
-              value: "xiilabPassword3#"
+              value: "xiirocks"
             - name: K8S_NAMESPACE
               value: "release-4"
             - name: UYUNIHOST
