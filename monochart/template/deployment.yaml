@@ -259,7 +259,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
@@ -570,7 +570,7 @@ spec:
         - name: uyuni-suite
           securityContext:
             {}
-          image: "xiilab/uyuni-suite-frontend:0.4.11-stag"
+          image: "xiilab/uyuni-suite-frontend:0.4.13-stag"
           imagePullPolicy: IfNotPresent
           env:
             - name: REACT_APP_KEYCLOAK_REALM
